@@ -217,6 +217,11 @@ python lerobot/scripts/control_robot.py \
 
 ## 添加摄像头
 
+<video src="https://fashionrobo.com/wp-content/uploads/2025/06/starai2.mp4"></video>
+<iframe height=498 width=510 src="https://fashionrobo.com/wp-content/uploads/2025/06/starai2.mp4">
+
+
+
 在插入您的两个 USB 摄像头后，运行以下脚本以检查摄像头的端口号，切记摄像头避免插在USB Hub上，USB Hub速率太慢会导致读不到图像数据。
 
 ```bash
