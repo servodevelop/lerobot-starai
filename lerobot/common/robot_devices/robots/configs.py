@@ -688,7 +688,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
     leader_arms: dict[str, MotorsBusConfig] = field(
         default_factory=lambda: {
             "main": StaraiMotorsBusConfig(
-                port="/dev/ttyUSB1",
+                port="/dev/ttyUSB0",
                 motors={
                     # name: (index, model)
                     "joint1": [0, "rx8-u50"],
@@ -706,7 +706,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
     follower_arms: dict[str, MotorsBusConfig] = field(
         default_factory=lambda: {
             "main": StaraiMotorsBusConfig(
-                port="/dev/ttyUSB0",
+                port="/dev/ttyUSB1",
                 motors={
                     # name: (index, model)
                     "joint1": [0, "rx8-u50"],
@@ -729,12 +729,12 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
                 width=640,
                 height=480,
             ),
-            "phone": OpenCVCameraConfig(
-                camera_index=0,
-                fps=30,
-                width=640,
-                height=480,
-            ),
+            # "phone": OpenCVCameraConfig(
+            #     camera_index=0,
+            #     fps=30,
+            #     width=640,
+            #     height=480,
+            # ),
         }
     )
 
