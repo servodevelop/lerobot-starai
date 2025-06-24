@@ -373,101 +373,6 @@ class StaraiMotorsBus:
 
         return values
 
-    # def autocorrect_calibration(self, values: np.ndarray | list, motor_names: list[str] | None):
-    #     """This function automatically detects issues with values of motors after calibration, and correct for these issues.
-
-    #     Some motors might have values outside of expected maximum bounds after calibration.
-    #     For instance, for a joint in degree, its value can be outside [-270, 270] degrees, which is totally unexpected given
-    #     a nominal range of [-180, 180] degrees, which represents half a turn to the left or right starting from zero position.
-
-    #     Known issues:
-    #     #1: Motor value randomly shifts of a full turn, caused by hardware/connection errors.
-    #     #2: Motor internal homing offset is shifted by a full turn, caused by using default calibration (e.g Aloha).
-    #     #3: motor internal homing offset is shifted by less or more than a full turn, caused by using default calibration
-    #         or by human error during manual calibration.
-
-    #     Issues #1 and #2 can be solved by shifting the calibration homing offset by a full turn.
-    #     Issue #3 will be visually detected by user and potentially captured by the safety feature `max_relative_target`,
-    #     that will slow down the motor, raise an error asking to recalibrate. Manual recalibrating will solve the issue.
-
-    #     Note: A full turn corresponds to 360 degrees but also to 4096 steps for a motor resolution of 4096.
-    #     """
-    #     if motor_names is None:
-    #         motor_names = self.motor_names
-
-    #     # Convert from unsigned int32 original range [0, 2**32] to signed float32 range
-    #     values = values.astype(np.float32)
-
-    #     for i, name in enumerate(motor_names):
-    #         calib_idx = self.calibration["motor_names"].index(name)
-    #         calib_mode = self.calibration["calib_mode"][calib_idx]
-
-    #         if CalibrationMode[calib_mode] == CalibrationMode.DEGREE:
-    #             drive_mode = self.calibration["drive_mode"][calib_idx]
-    #             homing_offset = self.calibration["homing_offset"][calib_idx]
-    #             _, model = self.motors[name]
-    #             resolution = self.model_resolution[model]
-
-    #             # Update direction of rotation of the motor to match between leader and follower.
-    #             # In fact, the motor of the leader for a given joint can be assembled in an
-    #             # opposite direction in term of rotation than the motor of the follower on the same joint.
-    #             if drive_mode:
-    #                 values[i] *= -1
-
-    #             # Convert from initial range to range [-180, 180] degrees
-    #             calib_val = (values[i] + homing_offset) / (resolution // 2) * HALF_TURN_DEGREE
-    #             in_range = (calib_val > LOWER_BOUND_DEGREE) and (calib_val < UPPER_BOUND_DEGREE)
-
-    #             # Solve this inequality to find the factor to shift the range into [-180, 180] degrees
-    #             # values[i] = (values[i] + homing_offset + resolution * factor) / (resolution // 2) * HALF_TURN_DEGREE
-    #             # - HALF_TURN_DEGREE <= (values[i] + homing_offset + resolution * factor) / (resolution // 2) * HALF_TURN_DEGREE <= HALF_TURN_DEGREE
-    #             # (- (resolution // 2) - values[i] - homing_offset) / resolution <= factor <= ((resolution // 2) - values[i] - homing_offset) / resolution
-    #             low_factor = (-(resolution // 2) - values[i] - homing_offset) / resolution
-    #             upp_factor = ((resolution // 2) - values[i] - homing_offset) / resolution
-
-    #         elif CalibrationMode[calib_mode] == CalibrationMode.LINEAR:
-    #             start_pos = self.calibration["start_pos"][calib_idx]
-    #             end_pos = self.calibration["end_pos"][calib_idx]
-
-    #             # Convert from initial range to range [0, 100] in %
-    #             calib_val = (values[i] - start_pos) / (end_pos - start_pos) * 100
-    #             in_range = (calib_val > LOWER_BOUND_LINEAR) and (calib_val < UPPER_BOUND_LINEAR)
-
-    #             # Solve this inequality to find the factor to shift the range into [0, 100] %
-    #             # values[i] = (values[i] - start_pos + resolution * factor) / (end_pos + resolution * factor - start_pos - resolution * factor) * 100
-    #             # values[i] = (values[i] - start_pos + resolution * factor) / (end_pos - start_pos) * 100
-    #             # 0 <= (values[i] - start_pos + resolution * factor) / (end_pos - start_pos) * 100 <= 100
-    #             # (start_pos - values[i]) / resolution <= factor <= (end_pos - values[i]) / resolution
-    #             low_factor = (start_pos - values[i]) / resolution
-    #             upp_factor = (end_pos - values[i]) / resolution
-
-    #         if not in_range:
-    #             # Get first integer between the two bounds
-    #             if low_factor < upp_factor:
-    #                 factor = math.ceil(low_factor)
-
-    #                 if factor > upp_factor:
-    #                     raise ValueError(f"No integer found between bounds [{low_factor=}, {upp_factor=}]")
-    #             else:
-    #                 factor = math.ceil(upp_factor)
-
-    #                 if factor > low_factor:
-    #                     raise ValueError(f"No integer found between bounds [{low_factor=}, {upp_factor=}]")
-
-    #             if CalibrationMode[calib_mode] == CalibrationMode.DEGREE:
-    #                 out_of_range_str = f"{LOWER_BOUND_DEGREE} < {calib_val} < {UPPER_BOUND_DEGREE} degrees"
-    #                 in_range_str = f"{LOWER_BOUND_DEGREE} < {calib_val} < {UPPER_BOUND_DEGREE} degrees"
-    #             elif CalibrationMode[calib_mode] == CalibrationMode.LINEAR:
-    #                 out_of_range_str = f"{LOWER_BOUND_LINEAR} < {calib_val} < {UPPER_BOUND_LINEAR} %"
-    #                 in_range_str = f"{LOWER_BOUND_LINEAR} < {calib_val} < {UPPER_BOUND_LINEAR} %"
-
-    #             logging.warning(
-    #                 f"Auto-correct calibration of motor '{name}' by shifting value by {abs(factor)} full turns, "
-    #                 f"from '{out_of_range_str}' to '{in_range_str}'."
-    #             )
-
-    #             # A full turn corresponds to 360 degrees but also to 4096 steps for a motor resolution of 4096.
-    #             self.calibration["homing_offset"][calib_idx] += resolution * factor
 
     def revert_calibration(self, values: np.ndarray | list, motor_names: list[str] | None):
         """Inverse of `apply_calibration`."""
@@ -502,43 +407,43 @@ class StaraiMotorsBus:
 
         return values
 
-    def read_with_motor_ids(self, motor_models, motor_ids, data_name, num_retry=NUM_READ_RETRY):
-        if self.mock:
-            import tests.motors.mock_dynamixel_sdk as dxl
-        else:
-            import dynamixel_sdk as dxl
+    # def read_with_motor_ids(self, motor_models, motor_ids, data_name, num_retry=NUM_READ_RETRY):
+    #     if self.mock:
+    #         import tests.motors.mock_dynamixel_sdk as dxl
+    #     else:
+    #         import dynamixel_sdk as dxl
 
-        return_list = True
-        if not isinstance(motor_ids, list):
-            return_list = False
-            motor_ids = [motor_ids]
+    #     return_list = True
+    #     if not isinstance(motor_ids, list):
+    #         return_list = False
+    #         motor_ids = [motor_ids]
 
-        assert_same_address(self.model_ctrl_table, self.motor_models, data_name)
-        addr, bytes = self.model_ctrl_table[motor_models[0]][data_name]
-        group = dxl.GroupSyncRead(self.port_handler, self.packet_handler, addr, bytes)
-        for idx in motor_ids:
-            group.addParam(idx)
+    #     assert_same_address(self.model_ctrl_table, self.motor_models, data_name)
+    #     addr, bytes = self.model_ctrl_table[motor_models[0]][data_name]
+    #     group = dxl.GroupSyncRead(self.port_handler, self.packet_handler, addr, bytes)
+    #     for idx in motor_ids:
+    #         group.addParam(idx)
 
-        for _ in range(num_retry):
-            comm = group.txRxPacket()
-            if comm == dxl.COMM_SUCCESS:
-                break
+    #     for _ in range(num_retry):
+    #         comm = group.txRxPacket()
+    #         if comm == dxl.COMM_SUCCESS:
+    #             break
 
-        if comm != dxl.COMM_SUCCESS:
-            raise ConnectionError(
-                f"Read failed due to communication error on port {self.port_handler.port_name} for indices {motor_ids}: "
-                f"{self.packet_handler.getTxRxResult(comm)}"
-            )
+    #     if comm != dxl.COMM_SUCCESS:
+    #         raise ConnectionError(
+    #             f"Read failed due to communication error on port {self.port_handler.port_name} for indices {motor_ids}: "
+    #             f"{self.packet_handler.getTxRxResult(comm)}"
+    #         )
 
-        values = []
-        for idx in motor_ids:
-            value = group.getData(idx, addr, bytes)
-            values.append(value)
+    #     values = []
+    #     for idx in motor_ids:
+    #         value = group.getData(idx, addr, bytes)
+    #         values.append(value)
 
-        if return_list:
-            return values
-        else:
-            return values[0]
+    #     if return_list:
+    #         return values
+    #     else:
+    #         return values[0]
 
     def read(self, data_name, motor_names: str | list[str] | None = None):
         if not self.is_connected:
@@ -662,10 +567,6 @@ class StaraiMotorsBus:
             comm = COMM_SUCCESS
         elif data_name == "Goal_Position":
             
-
-            # command_data_list = [struct.pack('<BhHH',motor_ids[i],int(values[i]*10), 200, 0)for i in motor_ids]
-            # self.port_handler.send_sync_angle(self.port_handler.CODE_SET_SERVO_ANGLE,len(motor_ids),command_data_list)
-
             if  motor_names[6] != None and motor_names[6] == "gripper":
                 if self.gripper_degree_record != values[6] :
                     self.gripper_degree_record = values[6]
