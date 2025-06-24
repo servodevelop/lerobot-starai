@@ -218,7 +218,7 @@ class StaraiMotorsBus:
         self.uart = serial.Serial(port=self.port,baudrate=BAUDRATE,parity=serial.PARITY_NONE,stopbits=1,bytesize=8,timeout=0)
         motor_ids = []
         try:
-            self.port_handler = uservo.UartServoManager(self.uart, srv_num=7,is_scan_servo = False)
+            self.port_handler = uservo.UartServoManager(self.uart)
             motor_names = self.motor_names
 
             for name in motor_names:
