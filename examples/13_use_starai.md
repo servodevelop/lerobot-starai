@@ -217,7 +217,8 @@ python lerobot/scripts/control_robot.py \
 
 ## 添加摄像头
 
-https://github.com/user-attachments/assets/7fb10a04-8cd7-4a28-922b-c362e5284e0c
+https://github.com/user-attachments/assets/82650b56-96be-4151-9260-2ed6ab8b133f
+
 
 在插入您的两个 USB 摄像头后，运行以下脚本以检查摄像头的端口号，切记摄像头避免插在USB Hub上，USB Hub速率太慢会导致读不到图像数据。
 
@@ -286,7 +287,11 @@ python lerobot/scripts/control_robot.py \
 
 ## 数据集制作采集
 
-https://github.com/user-attachments/assets/ff674777-a041-440a-b03e-77ed0ab43297
+
+https://github.com/user-attachments/assets/8bb25714-783a-4f29-83dd-58b457aed80c
+
+
+
 
 一旦您熟悉了遥操作，您就可以开始您的第一个数据集。
 
