@@ -217,10 +217,7 @@ python lerobot/scripts/control_robot.py \
 
 ## 添加摄像头
 
-<video src="https://fashionrobo.com/wp-content/uploads/2025/06/starai2.mp4"></video>
-<iframe height=498 width=510 src="https://fashionrobo.com/wp-content/uploads/2025/06/starai2.mp4">
-
-
+https://github.com/user-attachments/assets/7fb10a04-8cd7-4a28-922b-c362e5284e0c
 
 在插入您的两个 USB 摄像头后，运行以下脚本以检查摄像头的端口号，切记摄像头避免插在USB Hub上，USB Hub速率太慢会导致读不到图像数据。
 
@@ -288,6 +285,8 @@ python lerobot/scripts/control_robot.py \
 ```
 
 ## 数据集制作采集
+
+https://github.com/user-attachments/assets/ff674777-a041-440a-b03e-77ed0ab43297
 
 一旦您熟悉了遥操作，您就可以开始您的第一个数据集。
 
