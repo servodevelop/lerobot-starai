@@ -116,14 +116,6 @@ conda install ffmpeg=7.1.1 -c conda-forge
 ```bash
 cd ~/lerobot && pip install -e ".[starai]"
 ```
-重新安装
-
-```bash
-cd ~/lerobot && pip install -e ".[starai]"
-
-pip install --only-binary :all: pynput
-```
-
 6.检查 Pytorch 和 Torchvision
 
 由于通过 pip 安装 lerobot 环境时会卸载原有的 Pytorch 和 Torchvision 并安装 CPU 版本，因此需要在 Python 中进行检查。

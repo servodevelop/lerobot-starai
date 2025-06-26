@@ -224,6 +224,8 @@ class StaraiMotorsBus:
             for name in motor_names:
                 motor_idx, model = self.motors[name]
                 motor_ids.append(motor_idx)
+                self.port_handler.disable_torque(motor_idx)
+                time.sleep(0.005)
                 self.port_handler.reset_multi_turn_angle(motor_idx)
                 time.sleep(0.01)
 

@@ -1,413 +1,482 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="media/lerobot-logo-thumbnail.png">
-    <source media="(prefers-color-scheme: light)" srcset="media/lerobot-logo-thumbnail.png">
-    <img alt="LeRobot, Hugging Face Robotics Library" src="media/lerobot-logo-thumbnail.png" style="max-width: 100%;">
-  </picture>
-  <br/>
-  <br/>
-</p>
+# 如何搭建具身智能Lerobot violin和cello机械臂并完成自定义抓取任务
 
-<div align="center">
-
-[![Tests](https://github.com/huggingface/lerobot/actions/workflows/nightly-tests.yml/badge.svg?branch=main)](https://github.com/huggingface/lerobot/actions/workflows/nightly-tests.yml?query=branch%3Amain)
-[![Coverage](https://codecov.io/gh/huggingface/lerobot/branch/main/graph/badge.svg?token=TODO)](https://codecov.io/gh/huggingface/lerobot)
-[![Python versions](https://img.shields.io/pypi/pyversions/lerobot)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/huggingface/lerobot/blob/main/LICENSE)
-[![Status](https://img.shields.io/pypi/status/lerobot)](https://pypi.org/project/lerobot/)
-[![Version](https://img.shields.io/pypi/v/lerobot)](https://pypi.org/project/lerobot/)
-[![Examples](https://img.shields.io/badge/Examples-green.svg)](https://github.com/huggingface/lerobot/tree/main/examples)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.1%20adopted-ff69b4.svg)](https://github.com/huggingface/lerobot/blob/main/CODE_OF_CONDUCT.md)
-[![Discord](https://dcbadge.vercel.app/api/server/C5P34WJ68S?style=flat)](https://discord.gg/s3KuuzsPFb)
-
-</div>
-
-<h2 align="center">
-    <p><a href="https://github.com/huggingface/lerobot/blob/main/examples/12_use_so101.md">
-        Build Your Own SO-101 Robot!</a></p>
-</h2>
-
-<div align="center">
-  <div style="display: flex; gap: 1rem; justify-content: center; align-items: center;" >
-    <img
-      src="media/so101/so101.webp?raw=true"
-      alt="SO-101 follower arm"
-      title="SO-101 follower arm"
-      style="width: 40%;"
-    />
-    <img
-      src="media/so101/so101-leader.webp?raw=true"
-      alt="SO-101 leader arm"
-      title="SO-101 leader arm"
-      style="width: 40%;"
-    />
-  </div>
+[LeRobot](https://github.com/huggingface/lerobot/tree/main) 致力于为真实世界的机器人提供 PyTorch 中的模型、数据集和工具。其目标是降低机器人学的入门门槛，使每个人都能通过共享数据集和预训练模型进行贡献和受益。LeRobot 集成了经过验证的前沿方法，专注于模仿学习和强化学习。它提供了一套预训练模型、包含人类收集的示范数据集和仿真环境，使用户无需进行机器人组装即可开始使用。未来几周，计划在当前最具成本效益和性能的机器人上增强对真实世界机器人的支持。
 
 
-  <p><strong>Meet the updated SO100, the SO-101 – Just €114 per arm!</strong></p>
-  <p>Train it in minutes with a few simple moves on your laptop.</p>
-  <p>Then sit back and watch your creation act autonomously! 🤯</p>
 
-  <p><a href="https://github.com/huggingface/lerobot/blob/main/examples/12_use_so101.md">
-      See the full SO-101 tutorial here.</a></p>
+##  产品介绍TODO
 
-  <p>Want to take it to the next level? Make your SO-101 mobile by building LeKiwi!</p>
-  <p>Check out the <a href="https://github.com/huggingface/lerobot/blob/main/examples/11_use_lekiwi.md">LeKiwi tutorial</a> and bring your robot to life on wheels.</p>
-
-  <img src="media/lekiwi/kiwi.webp?raw=true" alt="LeKiwi mobile robot" title="LeKiwi mobile robot" width="50%">
-</div>
-
-<br/>
-
-<h3 align="center">
-    <p>LeRobot: State-of-the-art AI for real-world robotics</p>
-</h3>
-
----
-
-🤗 LeRobot aims to provide models, datasets, and tools for real-world robotics in PyTorch. The goal is to lower the barrier to entry to robotics so that everyone can contribute and benefit from sharing datasets and pretrained models.
-
-🤗 LeRobot contains state-of-the-art approaches that have been shown to transfer to the real-world with a focus on imitation learning and reinforcement learning.
-
-🤗 LeRobot already provides a set of pretrained models, datasets with human collected demonstrations, and simulation environments to get started without assembling a robot. In the coming weeks, the plan is to add more and more support for real-world robotics on the most affordable and capable robots out there.
-
-🤗 LeRobot hosts pretrained models and datasets on this Hugging Face community page: [huggingface.co/lerobot](https://huggingface.co/lerobot)
-
-#### Examples of pretrained models on simulation environments
-
-<table>
-  <tr>
-    <td><img src="media/gym/aloha_act.gif" width="100%" alt="ACT policy on ALOHA env"/></td>
-    <td><img src="media/gym/simxarm_tdmpc.gif" width="100%" alt="TDMPC policy on SimXArm env"/></td>
-    <td><img src="media/gym/pusht_diffusion.gif" width="100%" alt="Diffusion policy on PushT env"/></td>
-  </tr>
-  <tr>
-    <td align="center">ACT policy on ALOHA env</td>
-    <td align="center">TDMPC policy on SimXArm env</td>
-    <td align="center">Diffusion policy on PushT env</td>
-  </tr>
-</table>
-
-### Acknowledgment
-
-- Thanks to Tony Zhao, Zipeng Fu and colleagues for open sourcing ACT policy, ALOHA environments and datasets. Ours are adapted from [ALOHA](https://tonyzhaozh.github.io/aloha) and [Mobile ALOHA](https://mobile-aloha.github.io).
-- Thanks to Cheng Chi, Zhenjia Xu and colleagues for open sourcing Diffusion policy, Pusht environment and datasets, as well as UMI datasets. Ours are adapted from [Diffusion Policy](https://diffusion-policy.cs.columbia.edu) and [UMI Gripper](https://umi-gripper.github.io).
-- Thanks to Nicklas Hansen, Yunhai Feng and colleagues for open sourcing TDMPC policy, Simxarm environments and datasets. Ours are adapted from [TDMPC](https://github.com/nicklashansen/tdmpc) and [FOWM](https://www.yunhaifeng.com/FOWM).
-- Thanks to Antonio Loquercio and Ashish Kumar for their early support.
-- Thanks to [Seungjae (Jay) Lee](https://sjlee.cc/), [Mahi Shafiullah](https://mahis.life/) and colleagues for open sourcing [VQ-BeT](https://sjlee.cc/vq-bet/) policy and helping us adapt the codebase to our repository. The policy is adapted from [VQ-BeT repo](https://github.com/jayLEE0301/vq_bet_official).
+1. **开源 & 便于二次开发**
+   本系列舵机由[华馨京科技](https://fashionrobo.com/)提供，是一套开源、便于二次开发的6+1自由度机器臂解决方案。
+2. **支持 LeRobot 平台集成**
+   专为与 [LeRobot 平台](https://github.com/huggingface/lerobot) 集成而设计。该平台提供 PyTorch 模型、数据集与工具，面向现实机器人任务的模仿学习（包括数据采集、仿真、训练与部署）。
+3. **丰富的学习资源**TODO
+   提供全面的开源学习资源，帮助用户快速上手并开发机器人应用。
 
 
-## Installation
 
-Download our source code:
+## 特点内容TODO
+
+- 自由度：拥有6+1自由度，抵达位置更广泛。
+- 悬停按钮功能支持：悬停按钮可让LeaderArm随时悬停在任意角度。
+
+
+
+## 规格参数TODO
+
+|                      | Violin(Leader)                                               | Viola(Follower)                                              | Cello(Follower)                                              |
+| -------------------- | ------------------------------------------------------------ | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| **推荐电源**         | DC 12V 10 A                                                  | DC 12V 10 A                                                  | DC 12V 25A                                                   |
+| **电机构成**         | RX8-U50H-M x2 <br>RA8-U25H-M x5                              | RX8-U50H-M x2 <br/>RA8-U25H-M x5                             | RX18-U100H-M x3 <br/>RX8-U50H-M x4                           |
+| **悬停**             | 通过手柄按钮实现                                             | 跟随Leader时可悬停                                           | 跟随Leader时可悬停                                           |
+| **推荐工作温度范围** | 0 °C ～ 60 °C                                                | 0 °C ～ 60 °C                                                | 0 °C ～ 60 °C                                                |
+| **关节范围**         | joint0:±135°<br>joint1:±90°<br/>joint2:±90°<br/>joint3:±135°<br/>joint4:±90°<br/>joint5:±135°<br/> | joint0:±135°<br/>joint1:±90°<br/>joint2:±90°<br/>joint3:±135°<br/>joint4:±90°<br/>joint5:±135°<br/> | joint0:±135°<br/>joint1:±90°<br/>joint2:±90°<br/>joint3:±135°<br/>joint4:±90°<br/>joint5:±135°<br/> |
+| **夹爪行程**         | 0~70mm                                                       | 0~70mm                                                       | 0~70mm                                                       |
+
+有关舵机更多资讯，请访问以下链接。
+
+[RA8-U25H-M](https://fashionrobo.com/actuator-u25/23396/)
+
+[RX18-U100H-M](https://fashionrobo.com/actuator-u100/22853/)
+
+[RX8-U50H-M](https://fashionrobo.com/actuator-u50/136/)
+
+
+
+
+
+
+
+## 初始环境搭建
+
+For Ubuntu X86:
+
+- Ubuntu 22.04
+- CUDA 12+
+- Python 3.13
+- Troch 2.6
+
+
+
+## 安装与调试
+
+### 安装LeRobot
+
+需要根据你的 CUDA 版本安装 pytorch 和 torchvision 等环境。
+
+1. 安装 Miniconda： 对于 Jetson：
+
 ```bash
-git clone https://github.com/huggingface/lerobot.git
-cd lerobot
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
+chmod +x Miniconda3-latest-Linux-aarch64.sh
+./Miniconda3-latest-Linux-aarch64.sh
+source ~/.bashrc
 ```
 
-Create a virtual environment with Python 3.10 and activate it, e.g. with [`miniconda`](https://docs.anaconda.com/free/miniconda/index.html):
+或者，对于 X86 Ubuntu 22.04：
+
 ```bash
-conda create -y -n lerobot python=3.10
-conda activate lerobot
+mkdir -p ~/miniconda3
+cd miniconda3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+rm ~/miniconda3/miniconda.sh
+source ~/miniconda3/bin/activate
+conda init --all
 ```
 
-When using `miniconda`, install `ffmpeg` in your environment:
+2.创建并激活一个新的 conda 环境用于 lerobot
+
+```bash
+conda create -y -n lerobot python=3.10 && conda activate lerobot
+```
+
+3.克隆 Lerobot 仓库：
+
+```bash
+https://github.com/servodevelop/lerobot-starai.git
+```
+
+
+4.使用 miniconda 时，在环境中安装 ffmpeg：
+
 ```bash
 conda install ffmpeg -c conda-forge
 ```
+这通常会为你的平台安装使用 libsvtav1 编码器编译的 ffmpeg 7.X。如果不支持 libsvtav1（可以通过 ffmpeg -encoders 查看支持的编码器），你可以：
 
-> **NOTE:** This usually installs `ffmpeg 7.X` for your platform compiled with the `libsvtav1` encoder. If `libsvtav1` is not supported (check supported encoders with `ffmpeg -encoders`), you can:
->  - _[On any platform]_ Explicitly install `ffmpeg 7.X` using:
->  ```bash
->  conda install ffmpeg=7.1.1 -c conda-forge
->  ```
->  - _[On Linux only]_ Install [ffmpeg build dependencies](https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu#GettheDependencies) and [compile ffmpeg from source with libsvtav1](https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu#libsvtav1), and make sure you use the corresponding ffmpeg binary to your install with `which ffmpeg`.
-
-Install 🤗 LeRobot:
-```bash
-pip install -e .
-```
-
-> **NOTE:** If you encounter build errors, you may need to install additional dependencies (`cmake`, `build-essential`, and `ffmpeg libs`). On Linux, run:
-`sudo apt-get install cmake build-essential python3-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libswresample-dev libavfilter-dev pkg-config`. For other systems, see: [Compiling PyAV](https://pyav.org/docs/develop/overview/installation.html#bring-your-own-ffmpeg)
-
-For simulations, 🤗 LeRobot comes with gymnasium environments that can be installed as extras:
-- [aloha](https://github.com/huggingface/gym-aloha)
-- [xarm](https://github.com/huggingface/gym-xarm)
-- [pusht](https://github.com/huggingface/gym-pusht)
-
-For instance, to install 🤗 LeRobot with aloha and pusht, use:
-```bash
-pip install -e ".[aloha, pusht]"
-```
-
-To use [Weights and Biases](https://docs.wandb.ai/quickstart) for experiment tracking, log in with
-```bash
-wandb login
-```
-
-(note: you will also need to enable WandB in the configuration. See below.)
-
-## Walkthrough
-
-```
-.
-├── examples             # contains demonstration examples, start here to learn about LeRobot
-|   └── advanced         # contains even more examples for those who have mastered the basics
-├── lerobot
-|   ├── configs          # contains config classes with all options that you can override in the command line
-|   ├── common           # contains classes and utilities
-|   |   ├── datasets       # various datasets of human demonstrations: aloha, pusht, xarm
-|   |   ├── envs           # various sim environments: aloha, pusht, xarm
-|   |   ├── policies       # various policies: act, diffusion, tdmpc
-|   |   ├── robot_devices  # various real devices: dynamixel motors, opencv cameras, koch robots
-|   |   └── utils          # various utilities
-|   └── scripts          # contains functions to execute via command line
-|       ├── eval.py                 # load policy and evaluate it on an environment
-|       ├── train.py                # train a policy via imitation learning and/or reinforcement learning
-|       ├── control_robot.py        # teleoperate a real robot, record data, run a policy
-|       ├── push_dataset_to_hub.py  # convert your dataset into LeRobot dataset format and upload it to the Hugging Face hub
-|       └── visualize_dataset.py    # load a dataset and render its demonstrations
-├── outputs               # contains results of scripts execution: logs, videos, model checkpoints
-└── tests                 # contains pytest utilities for continuous integration
-```
-
-### Visualize datasets
-
-Check out [example 1](./examples/1_load_lerobot_dataset.py) that illustrates how to use our dataset class which automatically downloads data from the Hugging Face hub.
-
-You can also locally visualize episodes from a dataset on the hub by executing our script from the command line:
-```bash
-python lerobot/scripts/visualize_dataset.py \
-    --repo-id lerobot/pusht \
-    --episode-index 0
-```
-
-or from a dataset in a local folder with the `root` option and the `--local-files-only` (in the following case the dataset will be searched for in `./my_local_data_dir/lerobot/pusht`)
-```bash
-python lerobot/scripts/visualize_dataset.py \
-    --repo-id lerobot/pusht \
-    --root ./my_local_data_dir \
-    --local-files-only 1 \
-    --episode-index 0
-```
-
-
-It will open `rerun.io` and display the camera streams, robot states and actions, like this:
-
-https://github-production-user-asset-6210df.s3.amazonaws.com/4681518/328035972-fd46b787-b532-47e2-bb6f-fd536a55a7ed.mov?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240505%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240505T172924Z&X-Amz-Expires=300&X-Amz-Signature=d680b26c532eeaf80740f08af3320d22ad0b8a4e4da1bcc4f33142c15b509eda&X-Amz-SignedHeaders=host&actor_id=24889239&key_id=0&repo_id=748713144
-
-
-Our script can also visualize datasets stored on a distant server. See `python lerobot/scripts/visualize_dataset.py --help` for more instructions.
-
-### The `LeRobotDataset` format
-
-A dataset in `LeRobotDataset` format is very simple to use. It can be loaded from a repository on the Hugging Face hub or a local folder simply with e.g. `dataset = LeRobotDataset("lerobot/aloha_static_coffee")` and can be indexed into like any Hugging Face and PyTorch dataset. For instance `dataset[0]` will retrieve a single temporal frame from the dataset containing observation(s) and an action as PyTorch tensors ready to be fed to a model.
-
-A specificity of `LeRobotDataset` is that, rather than retrieving a single frame by its index, we can retrieve several frames based on their temporal relationship with the indexed frame, by setting `delta_timestamps` to a list of relative times with respect to the indexed frame. For example, with `delta_timestamps = {"observation.image": [-1, -0.5, -0.2, 0]}`  one can retrieve, for a given index, 4 frames: 3 "previous" frames 1 second, 0.5 seconds, and 0.2 seconds before the indexed frame, and the indexed frame itself (corresponding to the 0 entry). See example [1_load_lerobot_dataset.py](examples/1_load_lerobot_dataset.py) for more details on `delta_timestamps`.
-
-Under the hood, the `LeRobotDataset` format makes use of several ways to serialize data which can be useful to understand if you plan to work more closely with this format. We tried to make a flexible yet simple dataset format that would cover most type of features and specificities present in reinforcement learning and robotics, in simulation and in real-world, with a focus on cameras and robot states but easily extended to other types of sensory inputs as long as they can be represented by a tensor.
-
-Here are the important details and internal structure organization of a typical `LeRobotDataset` instantiated with `dataset = LeRobotDataset("lerobot/aloha_static_coffee")`. The exact features will change from dataset to dataset but not the main aspects:
-
-```
-dataset attributes:
-  ├ hf_dataset: a Hugging Face dataset (backed by Arrow/parquet). Typical features example:
-  │  ├ observation.images.cam_high (VideoFrame):
-  │  │   VideoFrame = {'path': path to a mp4 video, 'timestamp' (float32): timestamp in the video}
-  │  ├ observation.state (list of float32): position of an arm joints (for instance)
-  │  ... (more observations)
-  │  ├ action (list of float32): goal position of an arm joints (for instance)
-  │  ├ episode_index (int64): index of the episode for this sample
-  │  ├ frame_index (int64): index of the frame for this sample in the episode ; starts at 0 for each episode
-  │  ├ timestamp (float32): timestamp in the episode
-  │  ├ next.done (bool): indicates the end of an episode ; True for the last frame in each episode
-  │  └ index (int64): general index in the whole dataset
-  ├ episode_data_index: contains 2 tensors with the start and end indices of each episode
-  │  ├ from (1D int64 tensor): first frame index for each episode — shape (num episodes,) starts with 0
-  │  └ to: (1D int64 tensor): last frame index for each episode — shape (num episodes,)
-  ├ stats: a dictionary of statistics (max, mean, min, std) for each feature in the dataset, for instance
-  │  ├ observation.images.cam_high: {'max': tensor with same number of dimensions (e.g. `(c, 1, 1)` for images, `(c,)` for states), etc.}
-  │  ...
-  ├ info: a dictionary of metadata on the dataset
-  │  ├ codebase_version (str): this is to keep track of the codebase version the dataset was created with
-  │  ├ fps (float): frame per second the dataset is recorded/synchronized to
-  │  ├ video (bool): indicates if frames are encoded in mp4 video files to save space or stored as png files
-  │  └ encoding (dict): if video, this documents the main options that were used with ffmpeg to encode the videos
-  ├ videos_dir (Path): where the mp4 videos or png images are stored/accessed
-  └ camera_keys (list of string): the keys to access camera features in the item returned by the dataset (e.g. `["observation.images.cam_high", ...]`)
-```
-
-A `LeRobotDataset` is serialised using several widespread file formats for each of its parts, namely:
-- hf_dataset stored using Hugging Face datasets library serialization to parquet
-- videos are stored in mp4 format to save space
-- metadata are stored in plain json/jsonl files
-
-Dataset can be uploaded/downloaded from the HuggingFace hub seamlessly. To work on a local dataset, you can specify its location with the `root` argument if it's not in the default `~/.cache/huggingface/lerobot` location.
-
-### Evaluate a pretrained policy
-
-Check out [example 2](./examples/2_evaluate_pretrained_policy.py) that illustrates how to download a pretrained policy from Hugging Face hub, and run an evaluation on its corresponding environment.
-
-We also provide a more capable script to parallelize the evaluation over multiple environments during the same rollout. Here is an example with a pretrained model hosted on [lerobot/diffusion_pusht](https://huggingface.co/lerobot/diffusion_pusht):
-```bash
-python lerobot/scripts/eval.py \
-    --policy.path=lerobot/diffusion_pusht \
-    --env.type=pusht \
-    --eval.batch_size=10 \
-    --eval.n_episodes=10 \
-    --policy.use_amp=false \
-    --policy.device=cuda
-```
-
-Note: After training your own policy, you can re-evaluate the checkpoints with:
+- 【适用于所有平台】显式安装 ffmpeg 7.X：
 
 ```bash
-python lerobot/scripts/eval.py --policy.path={OUTPUT_DIR}/checkpoints/last/pretrained_model
+conda install ffmpeg=7.1.1 -c conda-forge
 ```
 
-See `python lerobot/scripts/eval.py --help` for more instructions.
+5.安装带有 fashionstar 电机依赖的 LeRobot：
 
-### Train your own policy
-
-Check out [example 3](./examples/3_train_policy.py) that illustrates how to train a model using our core library in python, and [example 4](./examples/4_train_policy_with_script.md) that shows how to use our training script from command line.
-
-To use wandb for logging training and evaluation curves, make sure you've run `wandb login` as a one-time setup step. Then, when running the training command above, enable WandB in the configuration by adding `--wandb.enable=true`.
-
-A link to the wandb logs for the run will also show up in yellow in your terminal. Here is an example of what they look like in your browser. Please also check [here](./examples/4_train_policy_with_script.md#typical-logs-and-metrics) for the explanation of some commonly used metrics in logs.
-
-![](media/wandb.png)
-
-Note: For efficiency, during training every checkpoint is evaluated on a low number of episodes. You may use `--eval.n_episodes=500` to evaluate on more episodes than the default. Or, after training, you may want to re-evaluate your best checkpoints on more episodes or change the evaluation settings. See `python lerobot/scripts/eval.py --help` for more instructions.
-
-#### Reproduce state-of-the-art (SOTA)
-
-We provide some pretrained policies on our [hub page](https://huggingface.co/lerobot) that can achieve state-of-the-art performances.
-You can reproduce their training by loading the config from their run. Simply running:
 ```bash
-python lerobot/scripts/train.py --config_path=lerobot/diffusion_pusht
+cd ~/lerobot && pip install -e ".[starai]"
 ```
-reproduces SOTA results for Diffusion Policy on the PushT task.
+6.检查 Pytorch 和 Torchvision
 
-## Contribute
+由于通过 pip 安装 lerobot 环境时会卸载原有的 Pytorch 和 Torchvision 并安装 CPU 版本，因此需要在 Python 中进行检查。
 
-If you would like to contribute to 🤗 LeRobot, please check out our [contribution guide](https://github.com/huggingface/lerobot/blob/main/CONTRIBUTING.md).
+```python
+import torch
+print(torch.cuda.is_available())
+```
 
-<!-- ### Add a new dataset
+如果输出结果为 False，需要根据[官网教程](https://pytorch.org/index.html)重新安装 Pytorch 和 Torchvision。
 
-To add a dataset to the hub, you need to login using a write-access token, which can be generated from the [Hugging Face settings](https://huggingface.co/settings/tokens):
+### 机械臂开箱TODO
+
+机械臂套装内包含
+
+- leader arm
+- follower arm
+- 电源（12V 12.5A）x2
+- 
+
+
+
+
+### 手臂端口设置
+
+在终端输入以下指令来找到两个机械臂对应的端口号：
+
+```bash
+python lerobot/scripts/find_motors_bus_port.py
+```
+
+例如：
+
+1. 识别Leader时端口的示例输出（例如，在 Mac 上为 `/dev/tty.usbmodem575E0031751`，或在 Linux 上可能为 `/dev/ttyUSB0`） 
+2. 识别Reader时端口的示例输出（例如，在 Mac 上为 `/dev/tty.usbmodem575E0032081`，或在 Linux 上可能为 `/dev/ttyUSB1`）
+
+### 校准文件设置
+
+通常情况下,机械臂出厂时已经完成校准，无须再次校准。如发现某关节电机长期处于限位处，可与厂家联系获取校准文件再次校准。
+
+
+
+注意：如果识别不到ttyUSB0串口信息。
+
+列出所有usb口。
+
+```sh
+lsusb
+```
+
+![image-20241230112928879-1749511998299-1](./media/starai/image-20241230112928879-1749511998299-1.png)
+
+识别成功，查看ttyusb的信息
+
+```sh
+sudo dmesg | grep ttyUSB
+```
+
+![image-20241230113058856](./media/starai/image-20241230113058856-1749512093309-2.png)
+
+最后一行显示断连，因为brltty在占用该USB设备号，移除掉就可以了
+
+```sh
+sudo apt remove brltty
+```
+
+![image-20241230113211143](./media/starai/image-20241230113211143-1749512102599-4.png)
+
+最后，赋予权限
+
+```sh
+sudo chmod 666 /dev/ttyUSB0
+```
+
+
+
+## 遥操作
+
+您已准备好遥操作您的机器人（不包括摄像头）！运行以下简单脚本：
+
+```bash
+python lerobot/scripts/control_robot.py \
+  --robot.type=starai \
+  --robot.cameras='{}' \
+  --control.type=teleoperate
+```
+
+程序启动后，悬停按钮依旧生效。
+
+
+
+## 添加摄像头
+
+https://github.com/user-attachments/assets/82650b56-96be-4151-9260-2ed6ab8b133f
+
+
+在插入您的两个 USB 摄像头后，运行以下脚本以检查摄像头的端口号，切记摄像头避免插在USB Hub上，USB Hub速率太慢会导致读不到图像数据。
+
+```bash
+python lerobot/common/robot_devices/cameras/opencv.py \
+    --images-dir outputs/images_from_opencv_cameras
+```
+
+终端将打印出以下信息。以我的笔记本为例，笔记本摄像头为index0，外接的USB摄像头为index2。
+
+```markdown
+Mac or X86 Ubuntu detected. Finding available camera indices through scanning all indices from 0 to 60
+[...]
+Camera found at index 0
+Camera found at index 2
+[...]
+Connecting cameras
+OpenCVCamera(0, fps=30.0, width=640, height=480, color_mode=rgb)
+OpenCVCamera(2, fps=30.0, width=640, height=480, color_mode=rgb)
+Saving images to outputs/images_from_opencv_cameras
+Frame: 0000 Latency (ms): 39.52
+[...]
+Frame: 0046 Latency (ms): 40.07
+Images have been saved to outputs/images_from_opencv_cameras
+```
+
+您可以在 `outputs/images_from_opencv_cameras` 目录中找到每个摄像头拍摄的图片，并确认不同位置摄像头对应的端口索引信息。然后，完成 `lerobot/lerobot/common/robot_devices/robots/configs.py` 文件中摄像头参数的对齐。
+
+![image-20250625094612644](./media/starai/image-20250625094612644.png) 
+
+```
+@RobotConfig.register_subclass("starai")
+@dataclass
+class StaraiRobotConfig(ManipulatorRobotConfig):
+    calibration_dir: str = ".cache/calibration/starai"
+
+    cameras: dict[str, CameraConfig] = field(
+        default_factory=*lambda*: {
+            "laptop": OpenCVCameraConfig(
+                camera_index=2,             ##### UPDATE HEARE
+                fps=30,
+                width=640,
+                height=480,
+            ),
+            "phone": OpenCVCameraConfig(
+                camera_index=0,             ##### UPDATE HEARE
+                fps=30,
+                width=640,
+                height=480,
+            ),
+        }
+    )
+
+​    mock: bool = False
+  
+```
+
+然后，您将能够在遥操作时在计算机上显示摄像头：
+
+```bash
+python lerobot/scripts/control_robot.py \
+  --robot.type=starai \
+  --control.type=teleoperate \
+  --control.display_data=true
+```
+
+## 数据集制作采集
+
+
+https://github.com/user-attachments/assets/8bb25714-783a-4f29-83dd-58b457aed80c
+
+
+
+
+一旦您熟悉了遥操作，您就可以开始您的第一个数据集。
+
+如果您想使用 Hugging Face Hub 的功能来上传您的数据集，并且您之前尚未这样做，请确保您已使用具有写入权限的令牌登录，该令牌可以从 [Hugging Face 设置](https://huggingface.co/settings/tokens) 中生成：
+
 ```bash
 huggingface-cli login --token ${HUGGINGFACE_TOKEN} --add-to-git-credential
 ```
 
-Then point to your raw dataset folder (e.g. `data/aloha_static_pingpong_test_raw`), and push your dataset to the hub with:
+将您的 Hugging Face 仓库名称存储在一个变量中，以运行以下命令：
+
 ```bash
-python lerobot/scripts/push_dataset_to_hub.py \
---raw-dir data/aloha_static_pingpong_test_raw \
---out-dir data \
---repo-id lerobot/aloha_static_pingpong_test \
---raw-format aloha_hdf5
+HF_USER=$(huggingface-cli whoami | head -n 1)
+echo $HF_USER
 ```
 
-See `python lerobot/scripts/push_dataset_to_hub.py --help` for more instructions.
+记录 2 个回合并将您的数据集上传到 Hub：
 
-If your dataset format is not supported, implement your own in `lerobot/common/datasets/push_dataset_to_hub/${raw_format}_format.py` by copying examples like [pusht_zarr](https://github.com/huggingface/lerobot/blob/main/lerobot/common/datasets/push_dataset_to_hub/pusht_zarr_format.py), [umi_zarr](https://github.com/huggingface/lerobot/blob/main/lerobot/common/datasets/push_dataset_to_hub/umi_zarr_format.py), [aloha_hdf5](https://github.com/huggingface/lerobot/blob/main/lerobot/common/datasets/push_dataset_to_hub/aloha_hdf5_format.py), or [xarm_pkl](https://github.com/huggingface/lerobot/blob/main/lerobot/common/datasets/push_dataset_to_hub/xarm_pkl_format.py). -->
-
-
-### Add a pretrained policy
-
-Once you have trained a policy you may upload it to the Hugging Face hub using a hub id that looks like `${hf_user}/${repo_name}` (e.g. [lerobot/diffusion_pusht](https://huggingface.co/lerobot/diffusion_pusht)).
-
-You first need to find the checkpoint folder located inside your experiment directory (e.g. `outputs/train/2024-05-05/20-21-12_aloha_act_default/checkpoints/002500`). Within that there is a `pretrained_model` directory which should contain:
-- `config.json`: A serialized version of the policy configuration (following the policy's dataclass config).
-- `model.safetensors`: A set of `torch.nn.Module` parameters, saved in [Hugging Face Safetensors](https://huggingface.co/docs/safetensors/index) format.
-- `train_config.json`: A consolidated configuration containing all parameters used for training. The policy configuration should match `config.json` exactly. This is useful for anyone who wants to evaluate your policy or for reproducibility.
-
-To upload these to the hub, run the following:
 ```bash
-huggingface-cli upload ${hf_user}/${repo_name} path/to/pretrained_model
+python lerobot/scripts/control_robot.py \
+  --robot.type=starai \
+  --control.type=record \
+  --control.fps=30 \
+  --control.single_task="Grasp a lego block and put it in the bin." \
+  --control.repo_id=${HF_USER}/starai \
+  --control.tags='["starai","tutorial"]' \
+  --control.warmup_time_s=5 \
+  --control.episode_time_s=30 \
+  --control.reset_time_s=30 \
+  --control.num_episodes=20 \
+  --control.display_data=true \
+  --control.push_to_hub=false
 ```
 
-See [eval.py](https://github.com/huggingface/lerobot/blob/main/lerobot/scripts/eval.py) for an example of how other people may use your policy.
 
 
-### Improve your code with profiling
+> [!TIP]
+>
+> - 如果你希望将数据保存在本地（`--control.push_to_hub=false`），请将 `--control.repo_id=${HF_USER}/starai` 替换为一个自定义的本地文件夹名称，例如 `--control.repo_id=starai/starai。`数据将存储在系统主目录下的 `~/.cache/huggingface/lerobot`。
+> - 如果你通过 `--control.push_to_hub=true` 将数据集上传到了 Hugging Face Hub，可以通过 [在线可视化你的数据集](https://huggingface.co/spaces/lerobot/visualize_dataset)，只需复制粘贴你的 repo id。
+> - 注意：你可以通过添加 `--control.resume=true` 来继续录制。如果你还没有上传数据集，还需要添加 `--control.local_files_only=true`。
+> - 在回合记录过程中任何时候按下右箭头 -> 可提前停止并进入重置状态。重置过程中同样，可提前停止并进入下一个回合记录。
+> - 在录制或重置到早期阶段时，随时按左箭头 <- 可提前停止当前剧集，并重新录制。
+> - 在录制过程中随时按 ESCAPE ESC 可提前结束会话，直接进入视频编码和数据集上传。
+> - 一旦你熟悉了数据记录，你就可以创建一个更大的数据集进行训练。一个不错的起始任务是在不同的位置抓取物体并将其放入箱子中。我们建议至少记录 50 个场景，每个位置 10 个场景。保持相机固定，并在整个录制过程中保持一致的抓取行为。同时确保你正在操作的物体在相机视野中可见。一个很好的经验法则是，你应该仅通过查看相机图像就能完成这项任务。
+> - 在接下来的章节中，你将训练你的神经网络。在实现可靠的抓取性能后，你可以在数据收集过程中引入更多变化，例如增加抓取位置、不同的抓取技巧以及改变相机位置。 
+> - 避免快速添加过多变化，因为这可能会阻碍您的结果。
+> - 在 Linux 上，如果在数据记录期间左右箭头键和 Esc 键没有效果，请确保您已设置 $DISPLAY 环境变量。参见 [pynput 限制](https://pynput.readthedocs.io/en/latest/limitations.html#linux)。
 
-An example of a code snippet to profile the evaluation of a policy:
-```python
-from torch.profiler import profile, record_function, ProfilerActivity
 
-def trace_handler(prof):
-    prof.export_chrome_trace(f"tmp/trace_schedule_{prof.step_num}.json")
 
-with profile(
-    activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
-    schedule=torch.profiler.schedule(
-        wait=2,
-        warmup=2,
-        active=3,
-    ),
-    on_trace_ready=trace_handler
-) as prof:
-    with record_function("eval_policy"):
-        for i in range(num_episodes):
-            prof.step()
-            # insert code to profile, potentially whole body of eval_policy function
+
+
+## 可视化数据集
+
+数据集保存在本地，并且数据采集时运行超参数为 `--control.push_to_hub=false` ，您也可以使用以下命令在本地进行可视化：
+
+```bash
+python lerobot/scripts/visualize_dataset_html.py \
+  --repo-id starai/starai_test \
 ```
 
-## Citation
+这里的`starai`为采集数据时候自定义的repo_id名。
 
-If you want, you can cite this work with:
-```bibtex
-@misc{cadene2024lerobot,
-    author = {Cadene, Remi and Alibert, Simon and Soare, Alexander and Gallouedec, Quentin and Zouitine, Adil and Palma, Steven and Kooijmans, Pepijn and Aractingi, Michel and Shukor, Mustafa and Aubakirova, Dana and Russi, Martino and Capuano, Francesco and Pascale, Caroline and Choghari, Jade and Moss, Jess and Wolf, Thomas},
-    title = {LeRobot: State-of-the-art Machine Learning for Real-World Robotics in Pytorch},
-    howpublished = "\url{https://github.com/huggingface/lerobot}",
-    year = {2024}
-}
+
+
+## 重播一个回合
+
+```
+python lerobot/scripts/control_robot.py \
+  --robot.type=starai \
+  --control.type=replay \
+  --control.fps=30 \
+  --control.repo_id=starai/starai \
+  --control.episode=0
+  --control.local_files_only=true
 ```
 
-Additionally, if you are using any of the particular policy architecture, pretrained models, or datasets, it is recommended to cite the original authors of the work as they appear below:
 
-- [Diffusion Policy](https://diffusion-policy.cs.columbia.edu)
-```bibtex
-@article{chi2024diffusionpolicy,
-	author = {Cheng Chi and Zhenjia Xu and Siyuan Feng and Eric Cousineau and Yilun Du and Benjamin Burchfiel and Russ Tedrake and Shuran Song},
-	title ={Diffusion Policy: Visuomotor Policy Learning via Action Diffusion},
-	journal = {The International Journal of Robotics Research},
-	year = {2024},
-}
-```
-- [ACT or ALOHA](https://tonyzhaozh.github.io/aloha)
-```bibtex
-@article{zhao2023learning,
-  title={Learning fine-grained bimanual manipulation with low-cost hardware},
-  author={Zhao, Tony Z and Kumar, Vikash and Levine, Sergey and Finn, Chelsea},
-  journal={arXiv preprint arXiv:2304.13705},
-  year={2023}
-}
+
+## 训练
+
+要训练一个控制您机器人策略，使用 `python lerobot/scripts/train.py` 脚本。需要一些参数。以下是一个示例命令：
+
+```bash
+python lerobot/scripts/train.py \
+  --dataset.repo_id=starai/starai \
+  --policy.type=act \
+  --output_dir=outputs/train/act_starai \
+  --job_name=act_starai \
+  --policy.device=cuda \
+  --wandb.enable=false
 ```
 
-- [TDMPC](https://www.nicklashansen.com/td-mpc/)
+如果你想训练本地数据集，repo_id与采集数据的repo_id对齐即可。训练应该需要几个小时。您将可以在 `outputs/train/act_starai_test/checkpoints` 中找到训练结果的权重文件。
 
-```bibtex
-@inproceedings{Hansen2022tdmpc,
-	title={Temporal Difference Learning for Model Predictive Control},
-	author={Nicklas Hansen and Xiaolong Wang and Hao Su},
-	booktitle={ICML},
-	year={2022}
-}
+要从某个检查点恢复训练，下面是一个从 `act_starai` 策略的最后一个检查点恢复训练的示例命令：
+
+```bash
+python lerobot/scripts/train.py \
+  --config_path=outputs/train/act_starai_test/checkpoints/last/pretrained_model/train_config.json \
+  --resume=true
 ```
 
-- [VQ-BeT](https://sjlee.cc/vq-bet/)
-```bibtex
-@article{lee2024behavior,
-  title={Behavior generation with latent actions},
-  author={Lee, Seungjae and Wang, Yibin and Etukuru, Haritheja and Kim, H Jin and Shafiullah, Nur Muhammad Mahi and Pinto, Lerrel},
-  journal={arXiv preprint arXiv:2403.03181},
-  year={2024}
-}
-```
-## Star History
+## 评估
 
-[![Star History Chart](https://api.star-history.com/svg?repos=huggingface/lerobot&type=Timeline)](https://star-history.com/#huggingface/lerobot&Timeline)
+您可以使用 [`lerobot/scripts/control_robot.py`](https://github.com/huggingface/lerobot/blob/main/lerobot/scripts/control_robot.py) 中的 `record` 功能，但需要将策略训练结果权重作为输入。例如，运行以下命令记录 10 个评估回合：
+
+```bash
+python lerobot/scripts/control_robot.py \
+  --robot.type=starai \
+  --control.type=record \
+  --control.fps=30 \
+  --control.single_task="Grasp a lego block and put it in the bin." \
+  --control.repo_id=starai/eval_act_starai \
+  --control.tags='["tutorial"]' \
+  --control.warmup_time_s=5 \
+  --control.episode_time_s=30 \
+  --control.reset_time_s=30 \
+  --control.num_episodes=10 \
+  --control.push_to_hub=false \
+  --control.policy.path=outputs/train/act_so101_test/checkpoints/last/pretrained_model
+```
+
+如您所见，这几乎与之前用于记录训练数据集的命令相同。只有两处变化：
+
+1. 增加了 `--control.policy.path` 参数，指示您的策略检查点的路径（例如 `outputs/train/eval_act_starai/checkpoints/last/pretrained_model`）。如果您将模型检查点上传到 Hub，也可以使用模型仓库（例如 `${HF_USER}/eval_act_starai`）。
+2. 数据集的名称以 `eval` 开头，以反映您正在运行推理（例如 `${HF_USER}/eval_act_starai`）。
+
+## FAQ
+
+- 如果实用本文档教程，请git clone本文档推荐的github仓库`TODO`。
+
+- 如果遇到以下报错，需要检查对应端口号的机械臂是否接通电源，总线舵机是否出现数据线松动或者脱落。
+
+  ```bash
+  ConnectionError: Read failed due to comunication eror on port /dev/ttyACM0 for group key Present_Position_Shoulder_pan_Shoulder_lift_elbow_flex_wrist_flex_wrist_roll_griper: [TxRxResult] There is no status packet!
+  ```
+
+  
+
+- 如果你维修或者更换过机械臂零件，请完全删除`~/lerobot/.cache/huggingface/calibration/so100`文件夹并重新校准机械臂
+
+- 如果遥操作正常，而带Camera的遥操作无法显示图像界面，请参考[这里](https://github.com/huggingface/lerobot/pull/757/files)
+
+- 如果在数据集遥操作过程中出现libtiff的问题，请更新libtiff版本。
+
+  ```bash
+  conda install libtiff==4.5.0  #for Ubuntu 22.04 is libtiff==4.5.1
+  ```
+
+  
+
+- 执行完[安装Lerobot](https://wiki.seeedstudio.com/cn/lerobot_so100m/#安装lerobot)可能会自动卸载gpu版本的pytorch，所以需要在手动安装torch-gpu。
+
+- 对于Jetson，请先安装[Pytorch和Torchvsion](https://github.com/Seeed-Projects/reComputer-Jetson-for-Beginners/blob/main/3-Basic-Tools-and-Getting-Started/3.3-Pytorch-and-Tensorflow/README.md#installing-pytorch-on-recomputer-nvidia-jetson)再执行`conda install -y -c conda-forge ffmpeg`,否则编译torchvision的时候会出现ffmpeg版本不匹配的问题。
+
+- 如果出现如下问题，是电脑的不支持此格式的视频编码，需要修改`lerobot/lerobot/common/datasets /video_utils.py`文件134行`vcodec: str = "libsvtav1"`的值修改为`libx264`或者`libopenh264`,不同电脑参数不同，可以进行尝试。 [Issues 705](https://github.com/huggingface/lerobot/issues/705)
+
+  ```bash
+  [vost#0:0 @ 0x13207240] Unknown encoder 'libsvtav1' [vost#0:0 @ 0x13207240] Error selecting an encoder Error opening output file /home/han/.cache/huggingface/lerobot/lyhhan/so100_test/videos/chunk-000/observation.images.laptop/episode_000000.mp4. Error opening output files: Encoder not found
+  ```
+
+  
+
+- 重要的事！！！如果再执行过程中舵机的数据线松动，请恢复这个舵机到初始位置再重新链接舵机数据线，也可以通过[初始化舵机命令](https://wiki.seeedstudio.com/cn/lerobot_so100m/#校准舵机并组装机械臂)单独校准某个舵机，校准单独的舵机的时候确保舵机上只有一个数据线与驱动板相连。如果出现
+
+  ```bash
+  Auto-correct calibration of motor 'wrist roll' by shifting value by 1 full turns, from '-270 < -312.451171875 < 270degrees' to'-270<-312.451171875 < 270 degrees'.
+  ```
+
+  
+
+  或者校准机械臂过程中的其他关于角度和超出限位值的报错，这个方法依然适用。
+
+- 在3060的8G笔记本上训练ACT的50组数据的时间大概为6小时，在4090和A100的电脑上训练50组数据时间大概为2~3小时。
+
+- 数据采集过程中要确保摄像头位置和角度和环境光线的稳定，并且减少摄像头采集到过多的不稳定背景和行人，否则部署的环境变化过大会导致机械臂无法正常抓取。
+
+- 数据采集命令的num-episodes要确保采集数据足够，不可中途手动暂停，因为在数据采集结束后才会计算数据的均值和方差，这在训练中是必要的数据。
+
+- 如果程序提示无法读取USB摄像头图像数据，请确保USB摄像头不是接在Hub上的，USB摄像头必须直接接入设备，确保图像传输速率快。
+
+## 参考文档TODO
+
+矽递科技英文Wiki文档：[How to use the SO10xArm robotic arm in Lerobot | Seeed Studio Wiki]([如何在 Lerobot 中使用 SO100/101Arm 机器人手臂 | Seeed Studio Wiki](https://wiki.seeedstudio.com/cn/lerobot_so100m/))
+
+Huggingface Project:[Lerobot](https://github.com/huggingface/lerobot/tree/main)
+
+ACT or ALOHA:[Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware](https://tonyzhaozh.github.io/aloha/)
+
+VQ-BeT:[VQ-BeT: Behavior Generation with Latent Actions](https://sjlee.cc/vq-bet/)
+
+Diffusion Policy:[Diffusion Policy](https://diffusion-policy.cs.columbia.edu/)
+
+TD-MPC:[TD-MPC](https://www.nicklashansen.com/td-mpc/)
