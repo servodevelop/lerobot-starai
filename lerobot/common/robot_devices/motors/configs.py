@@ -46,3 +46,4 @@ class StaraiMotorsBusConfig(MotorsBusConfig):
     port: str
     motors: dict[str, tuple[int, str]]
     mock: bool = False
+    interval :int = None

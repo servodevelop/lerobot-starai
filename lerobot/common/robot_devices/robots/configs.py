@@ -680,15 +680,14 @@ class LeKiwiRobotConfig(RobotConfig):
 @dataclass
 class StaraiRobotConfig(ManipulatorRobotConfig):
     calibration_dir: str = ".cache/calibration/starai"
-    # `max_relative_target` limits the magnitude of the relative positional target vector for safety purposes.
-    # Set this to a positive scalar to have the same value for all motors, or a list that is the same length as
-    # the number of motors in your follower arms.
+    
     max_relative_target: int | None = None
 
     leader_arms: dict[str, MotorsBusConfig] = field(
         default_factory=lambda: {
             "main": StaraiMotorsBusConfig(
                 port="/dev/ttyUSB1",
+                interval = 100,
                 motors={
                     # name: (index, model)
                     "joint1": [0, "rx8-u50"],
@@ -707,6 +706,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
         default_factory=lambda: {
             "main": StaraiMotorsBusConfig(
                 port="/dev/ttyUSB0",
+                interval = 100,
                 motors={
                     # name: (index, model)
                     "joint1": [0, "rx8-u50"],

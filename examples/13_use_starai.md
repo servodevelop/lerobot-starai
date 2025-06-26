@@ -1,4 +1,4 @@
-# 如何搭建具身智能Lerobot violin和cello机械臂并完成自定义抓取任务
+# 如何搭建具身智能Lerobot-starai系列机械臂并完成自定义抓取任务
 
 [LeRobot](https://github.com/huggingface/lerobot/tree/main) 致力于为真实世界的机器人提供 PyTorch 中的模型、数据集和工具。其目标是降低机器人学的入门门槛，使每个人都能通过共享数据集和预训练模型进行贡献和受益。LeRobot 集成了经过验证的前沿方法，专注于模仿学习和强化学习。它提供了一套预训练模型、包含人类收集的示范数据集和仿真环境，使用户无需进行机器人组装即可开始使用。未来几周，计划在当前最具成本效益和性能的机器人上增强对真实世界机器人的支持。
 
@@ -132,9 +132,12 @@ print(torch.cuda.is_available())
 机械臂套装内包含
 
 - leader arm
+
 - follower arm
-- 电源（12V 12.5A）x2
-- 
+
+- 电源x2
+
+  
 
 
 
@@ -152,11 +155,131 @@ python lerobot/scripts/find_motors_bus_port.py
 1. 识别Leader时端口的示例输出（例如，在 Mac 上为 `/dev/tty.usbmodem575E0031751`，或在 Linux 上可能为 `/dev/ttyUSB0`） 
 2. 识别Reader时端口的示例输出（例如，在 Mac 上为 `/dev/tty.usbmodem575E0032081`，或在 Linux 上可能为 `/dev/ttyUSB1`）
 
-### 校准文件设置
+打开文件
+
+```bash
+lerobot\lerobot\common\robot_devices\robots\configs.py
+```
+
+使用ctrl+F搜索快捷键搜索 starai ，可以定位到如下代码，修改fallower_arms和leader_arms下的port参数与实际一致。
+
+
+
+
+
+```py
+@RobotConfig.register_subclass("starai")
+@dataclass
+class StaraiRobotConfig(ManipulatorRobotConfig):
+    calibration_dir: str = ".cache/calibration/starai"
+    max_relative_target: int | None = None
+    
+    leader_arms: dict[str, MotorsBusConfig] = field(
+        default_factory=lambda: {
+            "main": StaraiMotorsBusConfig(
+                port="/dev/ttyUSB1",##### UPDATE HEARE
+                interval = 100,								
+                motors={
+                    # name: (index, model)
+                    "joint1": [0, "rx8-u50"],
+                    "joint2": [1, "rx8-u50"],
+                    "joint3": [2, "rx8-u50"],
+                    "joint4": [3, "rx8-u50"],
+                    "joint5": [4, "rx8-u50"],
+                    "joint6": [5, "rx8-u50"],
+                    "gripper": [6, "rx8-u50"],
+                },
+            ),
+        }
+    )
+
+    follower_arms: dict[str, MotorsBusConfig] = field(
+        default_factory=lambda: {
+            "main": StaraiMotorsBusConfig(
+                port="/dev/ttyUSB0",##### UPDATE HEARE
+                interval = 100,								
+                motors={
+                    # name: (index, model)
+                    "joint1": [0, "rx8-u50"],
+                    "joint2": [1, "rx8-u50"],
+                    "joint3": [2, "rx8-u50"],
+                    "joint4": [3, "rx8-u50"],
+                    "joint5": [4, "rx8-u50"],
+                    "joint6": [5, "rx8-u50"],
+                    "gripper": [6, "rx8-u50"],
+                },
+            ),
+        }
+    )
+```
+
+### 运行效果设置
+
+打开文件
+
+```bash
+lerobot\lerobot\common\robot_devices\robots\configs.py
+```
+
+使用ctrl+F搜索快捷键搜索 starai ，可以定位到如下代码，修改fallower_arms下的interval参数。
+
+- 参数含义：运动指令中的时间间隔，可以简单理解为当数值越小，follower跟随的实时性越高。数值越大，follower的运行平稳性越好。
+- 数值范围：整数，> 50 且 < 2000。
+
+建议在遥操作的时候将intervel设置为100（默认值），而在评估阶段自动运行时设置为1000以确保运动平稳。
+
+```PY
+@RobotConfig.register_subclass("starai")
+@dataclass
+class StaraiRobotConfig(ManipulatorRobotConfig):
+    calibration_dir: str = ".cache/calibration/starai"
+    max_relative_target: int | None = None
+
+    leader_arms: dict[str, MotorsBusConfig] = field(
+        default_factory=lambda: {
+            "main": StaraiMotorsBusConfig(
+                port="/dev/ttyUSB1",
+                interval = 100,								
+                motors={
+                    # name: (index, model)
+                    "joint1": [0, "rx8-u50"],
+                    "joint2": [1, "rx8-u50"],
+                    "joint3": [2, "rx8-u50"],
+                    "joint4": [3, "rx8-u50"],
+                    "joint5": [4, "rx8-u50"],
+                    "joint6": [5, "rx8-u50"],
+                    "gripper": [6, "rx8-u50"],
+                },
+            ),
+        }
+    )
+
+    follower_arms: dict[str, MotorsBusConfig] = field(
+        default_factory=lambda: {
+            "main": StaraiMotorsBusConfig(
+                port="/dev/ttyUSB0",
+                interval = 100,								##### UPDATE HEARE
+                motors={
+                    # name: (index, model)
+                    "joint1": [0, "rx8-u50"],
+                    "joint2": [1, "rx8-u50"],
+                    "joint3": [2, "rx8-u50"],
+                    "joint4": [3, "rx8-u50"],
+                    "joint5": [4, "rx8-u50"],
+                    "joint6": [5, "rx8-u50"],
+                    "gripper": [6, "rx8-u50"],
+                },
+            ),
+        }
+    )
+
+```
+
+
+
+### 角度映射设置
 
 通常情况下,机械臂出厂时已经完成校准，无须再次校准。如发现某关节电机长期处于限位处，可与厂家联系获取校准文件再次校准。
-
-
 
 > [!NOTE]
 >

@@ -190,7 +190,7 @@ class StaraiMotorsBus:
         self.port = config.port
         self.motors = config.motors
         self.mock = config.mock
-
+        self.interval = config.interval
 
 
         self.port_handler = None
@@ -572,25 +572,14 @@ class StaraiMotorsBus:
             if  motor_names[6] != None and motor_names[6] == "gripper":
                 if self.gripper_degree_record != values[6] :
                     self.gripper_degree_record = values[6]
-                    command_data_list = [struct.pack("<BlLHHH", motor_ids[i], int(values[i]*10), 50, 20, 20, 0)for i in motor_ids]
+                    command_data_list = [struct.pack("<BlLHHH", motor_ids[i], int(values[i]*10), self.interval, 20, 20, 0)for i in motor_ids]
                     self.port_handler.send_sync_multiturnanglebyinterval(self.port_handler.CODE_SET_SERVO_ANGLE_MTURN_BY_INTERVAL,len(motor_ids), command_data_list)
                 else:
-                    command_data_list = [struct.pack("<BlLHHH", motor_ids[i], int(values[i]*10), 50, 20, 20, 0)for i in (motor_ids[:-1])]
+                    command_data_list = [struct.pack("<BlLHHH", motor_ids[i], int(values[i]*10), self.interval, 20, 20, 0)for i in (motor_ids[:-1])]
                     self.port_handler.send_sync_multiturnanglebyinterval(self.port_handler.CODE_SET_SERVO_ANGLE_MTURN_BY_INTERVAL,len(motor_ids[:-1]), command_data_list)
             else:
-                command_data_list = [struct.pack("<BlLHHH", motor_ids[i], int(values[i]*10), 50, 20, 20, 0)for i in motor_ids]
+                command_data_list = [struct.pack("<BlLHHH", motor_ids[i], int(values[i]*10), self.interval, 20, 20, 0)for i in motor_ids]
                 self.port_handler.send_sync_multiturnanglebyinterval(self.port_handler.CODE_SET_SERVO_ANGLE_MTURN_BY_INTERVAL,len(motor_ids), command_data_list)
-            # if  motor_names[6] != None and motor_names[6] == "gripper":
-            #     if self.gripper_degree_record != values[6] :
-            #         self.gripper_degree_record = values[6]
-            #         command_data_list = [struct.pack("<BlHHHH", motor_ids[i], int(values[i]*10), 1500, 20, 20, 0)for i in motor_ids]
-            #         self.port_handler.send_sync_multiturnanglebyvelocity(self.port_handler.CODE_SET_SERVO_ANGLE_MTURN_BY_VELOCITY,len(motor_ids), command_data_list)
-            #     else:
-            #         command_data_list = [struct.pack("<BlHHHH", motor_ids[i], int(values[i]*10), 1500, 20, 20, 0)for i in (motor_ids[:-1])]
-            #         self.port_handler.send_sync_multiturnanglebyvelocity(self.port_handler.CODE_SET_SERVO_ANGLE_MTURN_BY_VELOCITY,len(motor_ids[:-1]), command_data_list)
-            # else:
-            #     command_data_list = [struct.pack("<BlHHHH", motor_ids[i], int(values[i]*10), 1500, 20, 20, 0)for i in motor_ids]
-            #     self.port_handler.send_sync_multiturnanglebyvelocity(self.port_handler.CODE_SET_SERVO_ANGLE_MTURN_BY_VELOCITY,len(motor_ids), command_data_list)
             
             
             comm = COMM_SUCCESS
