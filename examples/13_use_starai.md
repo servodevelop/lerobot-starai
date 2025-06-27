@@ -158,37 +158,41 @@ python lerobot/scripts/find_motors_bus_port.py
 
 
 
-注意：如果识别不到ttyUSB0串口信息。
-
-列出所有usb口。
-
-```sh
-lsusb
-```
-
-![image-20241230112928879-1749511998299-1](./../media/starai/image-20241230112928879-1749511998299-1.png)
-
-识别成功，查看ttyusb的信息
-
-```sh
-sudo dmesg | grep ttyUSB
-```
-
-![image-20241230113058856](./../media/starai/image-20241230113058856-1749512093309-2.png)
-
-最后一行显示断连，因为brltty在占用该USB设备号，移除掉就可以了
-
-```sh
-sudo apt remove brltty
-```
-
-![image-20241230113211143](./../media/starai/image-20241230113211143-1749512102599-4.png)
-
-最后，赋予权限
-
-```sh
-sudo chmod 666 /dev/ttyUSB0
-```
+> [!NOTE]
+>
+> 如果识别不到ttyUSB0串口信息。尝试以下方法。
+>
+> 列出所有usb口。
+>
+> ```sh
+> lsusb
+> ```
+>
+> ![image-20241230112928879-1749511998299-1](./../media/starai/image-20241230112928879-1749511998299-1.png)
+>
+> 识别成功，查看ttyusb的信息
+>
+> ```sh
+> sudo dmesg | grep ttyUSB
+> ```
+>
+> ![image-20241230113058856](./../media/starai/image-20241230113058856-1749512093309-2.png)
+>
+> 最后一行显示断连，因为brltty在占用该USB设备号，移除掉就可以了
+>
+> ```sh
+> sudo apt remove brltty
+> ```
+>
+> ![image-20241230113211143](./../media/starai/image-20241230113211143-1749512102599-4.png)
+>
+> 最后，赋予权限
+>
+> ```sh
+> sudo chmod 666 /dev/ttyUSB0
+> ```
+>
+> 
 
 
 
