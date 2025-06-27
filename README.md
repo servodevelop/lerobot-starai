@@ -1,4 +1,4 @@
-# 如何搭建具身智能Lerobot-starai系列机械臂并完成自定义抓取任务
+# 如何搭建具身智能LeRobot-starai系列机械臂并完成自定义抓取任务
 
 [LeRobot](https://github.com/huggingface/lerobot/tree/main) 致力于为真实世界的机器人提供 PyTorch 中的模型、数据集和工具。其目标是降低机器人学的入门门槛，使每个人都能通过共享数据集和预训练模型进行贡献和受益。LeRobot 集成了经过验证的前沿方法，专注于模仿学习和强化学习。它提供了一套预训练模型、包含人类收集的示范数据集和仿真环境，使用户无需进行机器人组装即可开始使用。未来几周，计划在当前最具成本效益和性能的机器人上增强对真实世界机器人的支持。
 
@@ -85,13 +85,13 @@ source ~/miniconda3/bin/activate
 conda init --all
 ```
 
-2.创建并激活一个新的 conda 环境用于 lerobot
+2.创建并激活一个新的 conda 环境用于 LeRobot
 
 ```bash
 conda create -y -n lerobot python=3.10 && conda activate lerobot
 ```
 
-3.克隆 Lerobot 仓库：
+3.克隆 LeRobot 仓库：
 
 ```bash
 https://github.com/servodevelop/lerobot-starai.git
@@ -118,7 +118,7 @@ cd ~/lerobot && pip install -e ".[starai]"
 ```
 6.检查 Pytorch 和 Torchvision
 
-由于通过 pip 安装 lerobot 环境时会卸载原有的 Pytorch 和 Torchvision 并安装 CPU 版本，因此需要在 Python 中进行检查。
+由于通过 pip 安装 LeRobot 环境时会卸载原有的 Pytorch 和 Torchvision 并安装 CPU 版本，因此需要在 Python 中进行检查。
 
 ```python
 import torch
@@ -564,7 +564,7 @@ python lerobot/scripts/control_robot.py \
 
   
 
-- 执行完[安装Lerobot](https://wiki.seeedstudio.com/cn/lerobot_so100m/#安装lerobot)可能会自动卸载gpu版本的pytorch，所以需要在手动安装torch-gpu。
+- 执行完[安装LeRobot](https://wiki.seeedstudio.com/cn/lerobot_so100m/#安装lerobot)可能会自动卸载gpu版本的pytorch，所以需要在手动安装torch-gpu。
 
 - 对于Jetson，请先安装[Pytorch和Torchvsion](https://github.com/Seeed-Projects/reComputer-Jetson-for-Beginners/blob/main/3-Basic-Tools-and-Getting-Started/3.3-Pytorch-and-Tensorflow/README.md#installing-pytorch-on-recomputer-nvidia-jetson)再执行`conda install -y -c conda-forge ffmpeg`,否则编译torchvision的时候会出现ffmpeg版本不匹配的问题。
 
