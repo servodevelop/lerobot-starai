@@ -46,22 +46,16 @@ UPPER_BOUND_DEGREE = 360
 # their nominal range is [0, 100] %. For instance, for Aloha gripper, 0% is fully
 # closed, and 100% is fully open. To account for slight calibration issue, we allow up to
 # [-10, 110] until an error is raised.
-LOWER_BOUND_LINEAR = -140
-UPPER_BOUND_LINEAR = 140
+LOWER_BOUND_LINEAR = -10
+UPPER_BOUND_LINEAR = 110
 HALF_TURN_DEGREE = 90
-# https://emanual.robotis.com/docs/en/dxl/x/xl330-m077
-# https://emanual.robotis.com/docs/en/dxl/x/xl330-m288
-# https://emanual.robotis.com/docs/en/dxl/x/xl430-w250
-# https://emanual.robotis.com/docs/en/dxl/x/xm430-w350
-# https://emanual.robotis.com/docs/en/dxl/x/xm540-w270
-# https://emanual.robotis.com/docs/en/dxl/x/xc430-w150
 
 # data_name: (address, size_byte)
 
-U_SERIES_BAUDRATE_TABLE = {
-    0: 115_200,
-    1: 1_000_000,
-}
+# U_SERIES_BAUDRATE_TABLE = {
+#     0: 115_200,
+#     1: 1_000_000,
+# }
 
 CALIBRATION_REQUIRED = ["Goal_Position", "Present_Position"]
 CONVERT_UINT32_TO_INT32_REQUIRED = [""]
@@ -71,49 +65,6 @@ COMM_SUCCESS = 128
 
 NUM_READ_RETRY = 10
 NUM_WRITE_RETRY = 10
-
-
-# def convert_degrees_to_steps(degrees: float | np.ndarray, models: str | list[str]) -> np.ndarray:
-#     """This function converts the degree range to the step range for indicating motors rotation.
-#     It assumes a motor achieves a full rotation by going from -180 degree position to +180.
-#     The motor resolution (e.g. 4096) corresponds to the number of steps needed to achieve a full rotation.
-#     """
-#     resolutions = [MODEL_RESOLUTION[model] for model in models]
-#     steps = degrees / 180 * np.array(resolutions) / 2
-#     steps = steps.astype(int)
-#     return steps
-
-
-# def convert_to_bytes(value, bytes, mock=False):
-#     if mock:
-#         return value
-
-#     import dynamixel_sdk as dxl
-
-#     # Note: No need to convert back into unsigned int, since this byte preprocessing
-#     # already handles it for us.
-#     if bytes == 1:
-#         data = [
-#             dxl.DXL_LOBYTE(dxl.DXL_LOWORD(value)),
-#         ]
-#     elif bytes == 2:
-#         data = [
-#             dxl.DXL_LOBYTE(dxl.DXL_LOWORD(value)),
-#             dxl.DXL_HIBYTE(dxl.DXL_LOWORD(value)),
-#         ]F
-#     elif bytes == 4:
-#         data = [
-#             dxl.DXL_LOBYTE(dxl.DXL_LOWORD(value)),
-#             dxl.DXL_HIBYTE(dxl.DXL_LOWORD(value)),
-#             dxl.DXL_LOBYTE(dxl.DXL_HIWORD(value)),
-#             dxl.DXL_HIBYTE(dxl.DXL_HIWORD(value)),
-#         ]
-#     else:
-#         raise NotImplementedError(
-#             f"Value of the number of bytes to be sent is expected to be in [1, 2, 4], but "
-#             f"{bytes} is provided instead."
-#         )
-#     return data
 
 
 def get_group_sync_key(data_name, motor_names):
@@ -137,25 +88,6 @@ def get_log_name(var_name, fn_name, data_name, motor_names):
     group_key = get_group_sync_key(data_name, motor_names)
     log_name = f"{var_name}_{fn_name}_{group_key}"
     return log_name
-
-
-# def assert_same_address(model_ctrl_table, motor_models, data_name):
-#     all_addr = []
-#     all_bytes = []
-#     for model in motor_models:
-#         addr, bytes = model_ctrl_table[model][data_name]
-#         all_addr.append(addr)
-#         all_bytes.append(bytes)
-
-#     if len(set(all_addr)) != 1:
-#         raise NotImplementedError(
-#             f"At least two motor models use a different address for `data_name`='{data_name}' ({list(zip(motor_models, all_addr, strict=False))}). Contact a LeRobot maintainer."
-#         )
-
-#     if len(set(all_bytes)) != 1:
-#         raise NotImplementedError(
-#             f"At least two motor models use a different bytes representation for `data_name`='{data_name}' ({list(zip(motor_models, all_bytes, strict=False))}). Contact a LeRobot maintainer."
-#         )
 
 
 class TorqueMode(enum.Enum):
@@ -259,14 +191,6 @@ class StaraiMotorsBus:
 
         self.is_connected = True
 
-    # def are_motors_configured(self):
-    #     # Only check the motor indices and not baudrate, since if the motor baudrates are incorrect,
-    #     # a ConnectionError will be raised anyway.
-    #     try:
-    #         return (self.motor_indices == self.read("ID")).all()
-    #     except ConnectionError as e:
-    #         print(e)
-    #         return False
 
     def find_motor_indices(self, possible_ids=None, num_retry=2):
         if possible_ids is None:
@@ -288,14 +212,6 @@ class StaraiMotorsBus:
 
         return indices
 
-    # def set_bus_baudrate(self, baudrate):
-    #     present_bus_baudrate = self.port_handler.getBaudRate()
-    #     if present_bus_baudrate != baudrate:
-    #         print(f"Setting bus baud rate to {baudrate}. Previously {present_bus_baudrate}.")
-    #         self.port_handler.setBaudRate(baudrate)
-
-    #         if self.port_handler.getBaudRate() != baudrate:
-    #             raise OSError("Failed to write bus baud rate.")
 
     @property
     def motor_names(self) -> list[str]:
@@ -365,6 +281,7 @@ class StaraiMotorsBus:
 
                 if (values[i] < LOWER_BOUND_LINEAR) or (values[i] > UPPER_BOUND_LINEAR):
                     raise JointOutOfRangeError(
+                        f"Wrong port name:{self.port}"
                         f"Wrong motor position range detected for {name}. "
                         f"Expected to be in nominal range of [0, 100] % (a full linear translation), "
                         f"with a maximum range of [{LOWER_BOUND_LINEAR}, {UPPER_BOUND_LINEAR}] % to account for some imprecision during calibration, "
@@ -450,7 +367,7 @@ class StaraiMotorsBus:
     def read(self, data_name, motor_names: str | list[str] | None = None):
         if not self.is_connected:
             raise RobotDeviceNotConnectedError(
-                f"DynamixelMotorsBus({self.port}) is not connected. You need to run `motors_bus.connect()`."
+                f"({self.port}) is not connected. You need to run `motors_bus.connect()`."
             )
 
         start_time = time.perf_counter()
@@ -538,7 +455,7 @@ class StaraiMotorsBus:
     def write(self, data_name, values: int | float | np.ndarray, motor_names: str | list[str] | None = None):
         if not self.is_connected:
             raise RobotDeviceNotConnectedError(
-                f"DynamixelMotorsBus({self.port}) is not connected. You need to run `motors_bus.connect()`."
+                f"({self.port}) is not connected. You need to run `motors_bus.connect()`."
             )
 
         start_time = time.perf_counter()
@@ -614,7 +531,7 @@ class StaraiMotorsBus:
     def disconnect(self):
         if not self.is_connected:
             raise RobotDeviceNotConnectedError(
-                f"DynamixelMotorsBus({self.port}) is not connected. Try running `motors_bus.connect()` first."
+                f"({self.port}) is not connected. Try running `motors_bus.connect()` first."
             )
 
         if self.port_handler is not None:
