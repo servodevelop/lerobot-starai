@@ -686,7 +686,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
     leader_arms: dict[str, MotorsBusConfig] = field(
         default_factory=lambda: {
             "main": StaraiMotorsBusConfig(
-                port="/dev/ttyUSB1",
+                port="/dev/ttyUSB0",
                 interval = 100,
                 motors={
                     # name: (index, model)
@@ -705,7 +705,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
     follower_arms: dict[str, MotorsBusConfig] = field(
         default_factory=lambda: {
             "main": StaraiMotorsBusConfig(
-                port="/dev/ttyUSB0",
+                port="/dev/ttyUSB1",
                 interval = 100,
                 motors={
                     # name: (index, model)
