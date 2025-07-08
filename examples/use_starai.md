@@ -497,7 +497,7 @@ python lerobot/scripts/control_robot.py \
 
 ```bash
 python lerobot/scripts/train.py \
-  --dataset.repo_id=starai/starai \
+  --dataset.repo_id=${HF_USER}/starai \
   --policy.type=act \
   --output_dir=outputs/train/act_starai \
   --job_name=act_starai \
@@ -532,7 +532,7 @@ python lerobot/scripts/control_robot.py \
   --control.reset_time_s=30 \
   --control.num_episodes=10 \
   --control.push_to_hub=false \
-  --control.policy.path=outputs/train/act_so101_test/checkpoints/last/pretrained_model
+  --control.policy.path=outputs/train/act_starai/checkpoints/last/pretrained_model
 ```
 
 如您所见，这几乎与之前用于记录训练数据集的命令相同。只有两处变化：
@@ -542,7 +542,7 @@ python lerobot/scripts/control_robot.py \
 
 ## FAQ
 
-- 如果实用本文档教程，请git clone本文档推荐的github仓库`TODO`。
+- 如果使用本文档教程，请git clone本文档推荐的github仓库`https://github.com/servodevelop/lerobot-starai.git`。
 
 - 如果遇到以下报错，需要检查对应端口号的机械臂是否接通电源，总线舵机是否出现数据线松动或者脱落。
 
