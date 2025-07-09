@@ -2,36 +2,55 @@
 
 [LeRobot](https://github.com/huggingface/lerobot/tree/main) 致力于为真实世界的机器人提供 PyTorch 中的模型、数据集和工具。其目标是降低机器人学的入门门槛，使每个人都能通过共享数据集和预训练模型进行贡献和受益。LeRobot 集成了经过验证的前沿方法，专注于模仿学习和强化学习。它提供了一套预训练模型、包含人类收集的示范数据集和仿真环境，使用户无需进行机器人组装即可开始使用。未来几周，计划在当前最具成本效益和性能的机器人上增强对真实世界机器人的支持。
 
+[EN](./README%20-E.md)
 
-
-##  产品介绍TODO
+##  产品介绍
 
 1. **开源 & 便于二次开发**
    本系列舵机由[华馨京科技](https://fashionrobo.com/)提供，是一套开源、便于二次开发的6+1自由度机器臂解决方案。
 2. **支持 LeRobot 平台集成**
    专为与 [LeRobot 平台](https://github.com/huggingface/lerobot) 集成而设计。该平台提供 PyTorch 模型、数据集与工具，面向现实机器人任务的模仿学习（包括数据采集、仿真、训练与部署）。
-3. **丰富的学习资源**TODO
-   提供全面的开源学习资源，帮助用户快速上手并开发机器人应用。
+3. **丰富的学习资源**
+   提供全面的开源学习资源，包括环境搭建，安装与调试与自定义夹取任务案例帮助用户快速上手并开发机器人应用。
+4. **兼容 Nvidia 平台**
+   支持通过 reComputer Mini J4012 Orin NX 16GB 平台进行部署。
 
 
 
-## 特点内容TODO
+## 特点内容
 
-- 自由度：拥有6+1自由度，抵达位置更广泛。
-- 悬停按钮功能支持：悬停按钮可让LeaderArm随时悬停在任意角度。
+- **零组装: ** 即刻上手｜一开箱即踏入AI时代。
+- 6+1自由度结构设计，470mm臂展，赋予无限操作可能。
+- 配备2颗全金属无刷总线舵机，稳定驱动，轻松承重300g。
+- 智能平行夹爪，最大开合66mm，模块化指尖，精准抓取不设限。
+- 独家悬停控制系统，指尖一按，Leader Arm稳停于任意姿态。
 
 
 
-## 规格参数TODO
+## 规格参数
 
-|                      | Violin(Leader)                                               | Viola(Follower)                                              | Cello(Follower)                                              |
-| -------------------- | ------------------------------------------------------------ | :----------------------------------------------------------- | :----------------------------------------------------------- |
-| **推荐电源**         | DC 12V 10 A                                                  | DC 12V 10 A                                                  | DC 12V 25A                                                   |
-| **电机构成**         | RX8-U50H-M x2 <br>RA8-U25H-M x5                              | RX8-U50H-M x2 <br/>RA8-U25H-M x5                             | RX18-U100H-M x3 <br/>RX8-U50H-M x4                           |
-| **悬停**             | 通过手柄按钮实现                                             | 跟随Leader时可悬停                                           | 跟随Leader时可悬停                                           |
-| **推荐工作温度范围** | 0 °C ～ 60 °C                                                | 0 °C ～ 60 °C                                                | 0 °C ～ 60 °C                                                |
-| **关节范围**         | joint0:±135°<br>joint1:±90°<br/>joint2:±90°<br/>joint3:±135°<br/>joint4:±90°<br/>joint5:±135°<br/> | joint0:±135°<br/>joint1:±90°<br/>joint2:±90°<br/>joint3:±135°<br/>joint4:±90°<br/>joint5:±135°<br/> | joint0:±135°<br/>joint1:±90°<br/>joint2:±90°<br/>joint3:±135°<br/>joint4:±90°<br/>joint5:±135°<br/> |
-| **夹爪行程**         | 0~70mm                                                       | 0~70mm                                                       | 0~70mm                                                       |
+![image-20250709072845215](media/starai/image-20250709072845215.png)
+
+| Item                 | Follower Arm \| Viola                             | Leder Arm \|Violin                                |
+| -------------------- | ------------------------------------------------- | ------------------------------------------------- |
+| Degrees of Freedom   | 6                                                 | 6+1                                               |
+| Reach                | 470mm                                             | 470mm                                             |
+| Span                 | 940mm                                             | 940mm                                             |
+| Repeatability        | 2mm                                               | -                                                 |
+| Working Payload      | 300g (with 70% Reach）                            | -                                                 |
+| Servos               | RX8-U50H-M x2<br/>RA8-U25H-M x4<br/>RA8-U26H-M x1 | RX8-U50H-M x2<br/>RA8-U25H-M x4<br/>RA8-U26H-M x1 |
+| Parallel Gripper Ki  | √                                                 | -                                                 |
+| Wrist Rotate         | Yes                                               | Yes                                               |
+| Hold at any Position | Yes                                               | Yes (with handle button)                          |
+| Wrist Camera Mount   | √                                                 | -                                                 |
+| Works with LeRobot   | √                                                 | √                                                 |
+| Works with ROS 2     | √                                                 | /                                                 |
+| Works with MoveIt    | √                                                 | /                                                 |
+| Works with Gazebo    | √                                                 | /                                                 |
+| Communication Hub    | UC-01                                             | UC-01                                             |
+| Power Supply         | 12v/120w                                          | 12v/120w                                          |
+
+
 
 有关舵机更多资讯，请访问以下链接。
 
@@ -497,7 +516,7 @@ python lerobot/scripts/control_robot.py \
 
 ```bash
 python lerobot/scripts/train.py \
-  --dataset.repo_id=starai/starai \
+  --dataset.repo_id=${HF_USER}/starai \
   --policy.type=act \
   --output_dir=outputs/train/act_starai \
   --job_name=act_starai \
@@ -532,7 +551,7 @@ python lerobot/scripts/control_robot.py \
   --control.reset_time_s=30 \
   --control.num_episodes=10 \
   --control.push_to_hub=false \
-  --control.policy.path=outputs/train/act_so101_test/checkpoints/last/pretrained_model
+  --control.policy.path=outputs/train/act_starai/checkpoints/last/pretrained_model
 ```
 
 如您所见，这几乎与之前用于记录训练数据集的命令相同。只有两处变化：
@@ -542,17 +561,13 @@ python lerobot/scripts/control_robot.py \
 
 ## FAQ
 
-- 如果实用本文档教程，请git clone本文档推荐的github仓库`TODO`。
+- 如果实用本文档教程，请git clone本文档推荐的github仓库`https://github.com/servodevelop/lerobot-starai.git`。
 
 - 如果遇到以下报错，需要检查对应端口号的机械臂是否接通电源，总线舵机是否出现数据线松动或者脱落。
 
   ```bash
   ConnectionError: Read failed due to comunication eror on port /dev/ttyACM0 for group key Present_Position_Shoulder_pan_Shoulder_lift_elbow_flex_wrist_flex_wrist_roll_griper: [TxRxResult] There is no status packet!
   ```
-
-  
-
-- 如果你维修或者更换过机械臂零件，请完全删除`~/lerobot/.cache/huggingface/calibration/so100`文件夹并重新校准机械臂
 
 - 如果遥操作正常，而带Camera的遥操作无法显示图像界面，请参考[这里](https://github.com/huggingface/lerobot/pull/757/files)
 
@@ -564,7 +579,7 @@ python lerobot/scripts/control_robot.py \
 
   
 
-- 执行完[安装LeRobot](https://wiki.seeedstudio.com/cn/lerobot_so100m/#安装lerobot)可能会自动卸载gpu版本的pytorch，所以需要在手动安装torch-gpu。
+- 执行完安装LeRobot可能会自动卸载gpu版本的pytorch，所以需要在手动安装torch-gpu。
 
 - 对于Jetson，请先安装[Pytorch和Torchvsion](https://github.com/Seeed-Projects/reComputer-Jetson-for-Beginners/blob/main/3-Basic-Tools-and-Getting-Started/3.3-Pytorch-and-Tensorflow/README.md#installing-pytorch-on-recomputer-nvidia-jetson)再执行`conda install -y -c conda-forge ffmpeg`,否则编译torchvision的时候会出现ffmpeg版本不匹配的问题。
 
@@ -576,16 +591,6 @@ python lerobot/scripts/control_robot.py \
 
   
 
-- 重要的事！！！如果再执行过程中舵机的数据线松动，请恢复这个舵机到初始位置再重新链接舵机数据线，也可以通过[初始化舵机命令](https://wiki.seeedstudio.com/cn/lerobot_so100m/#校准舵机并组装机械臂)单独校准某个舵机，校准单独的舵机的时候确保舵机上只有一个数据线与驱动板相连。如果出现
-
-  ```bash
-  Auto-correct calibration of motor 'wrist roll' by shifting value by 1 full turns, from '-270 < -312.451171875 < 270degrees' to'-270<-312.451171875 < 270 degrees'.
-  ```
-
-  
-
-  或者校准机械臂过程中的其他关于角度和超出限位值的报错，这个方法依然适用。
-
 - 在3060的8G笔记本上训练ACT的50组数据的时间大概为6小时，在4090和A100的电脑上训练50组数据时间大概为2~3小时。
 
 - 数据采集过程中要确保摄像头位置和角度和环境光线的稳定，并且减少摄像头采集到过多的不稳定背景和行人，否则部署的环境变化过大会导致机械臂无法正常抓取。
@@ -594,7 +599,7 @@ python lerobot/scripts/control_robot.py \
 
 - 如果程序提示无法读取USB摄像头图像数据，请确保USB摄像头不是接在Hub上的，USB摄像头必须直接接入设备，确保图像传输速率快。
 
-## 参考文档TODO
+## 参考文档
 
 矽递科技英文Wiki文档：[How to use the SO10xArm robotic arm in Lerobot | Seeed Studio Wiki]([如何在 Lerobot 中使用 SO100/101Arm 机器人手臂 | Seeed Studio Wiki](https://wiki.seeedstudio.com/cn/lerobot_so100m/))
 
