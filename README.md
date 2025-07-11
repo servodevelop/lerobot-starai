@@ -296,7 +296,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
 
 
 
-### 角度映射设置
+### 校准文件设置
 
 通常情况下,机械臂出厂时已经完成校准，无须再次校准。如发现某关节电机长期处于限位处，可与厂家联系获取校准文件再次校准。
 
