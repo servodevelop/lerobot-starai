@@ -19,7 +19,7 @@
 
 ## 特点内容
 
-- **零组装: ** 即刻上手｜一开箱即踏入AI时代。
+- **零组装**:  即刻上手｜一开箱即踏入AI时代。
 - 6+1自由度结构设计，470mm臂展，赋予无限操作可能。
 - 配备2颗全金属无刷总线舵机，稳定驱动，轻松承重300g。
 - 智能平行夹爪，最大开合66mm，模块化指尖，精准抓取不设限。
@@ -37,7 +37,7 @@
 | Reach                | 470mm                                             | 470mm                                             |
 | Span                 | 940mm                                             | 940mm                                             |
 | Repeatability        | 2mm                                               | -                                                 |
-| Working Payload      | 300g ( with 70% Reach)                            | -                                                 |
+| Working Payload      | 300g (with 70% Reach)                            | -                                                 |
 | Servos               | RX8-U50H-M x2<br/>RA8-U25H-M x4<br/>RA8-U26H-M x1 | RX8-U50H-M x2<br/>RA8-U25H-M x4<br/>RA8-U26H-M x1 |
 | Parallel Gripper Ki  | √                                                 | -                                                 |
 | Wrist Rotate         | Yes                                               | Yes                                               |
@@ -296,7 +296,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
 
 
 
-### 角度映射设置
+### 校准文件设置
 
 通常情况下,机械臂出厂时已经完成校准，无须再次校准。如发现某关节电机长期处于限位处，可与厂家联系获取校准文件再次校准。
 

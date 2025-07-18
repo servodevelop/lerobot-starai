@@ -47,7 +47,7 @@ UPPER_BOUND_DEGREE = 360
 # closed, and 100% is fully open. To account for slight calibration issue, we allow up to
 # [-10, 110] until an error is raised.
 LOWER_BOUND_LINEAR = -10
-UPPER_BOUND_LINEAR = 110
+UPPER_BOUND_LINEAR = 150
 HALF_TURN_DEGREE = 90
 
 # data_name: (address, size_byte)
