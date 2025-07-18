@@ -50,8 +50,6 @@
 | Communication Hub    | UC-01                                             | UC-01                                             |
 | Power Supply         | 12v/120w                                          | 12v/120w                                          |
 
-
-
 有关舵机更多资讯，请访问以下链接。
 
 [RA8-U25H-M](https://fashionrobo.com/actuator-u25/23396/)

@@ -4,18 +4,18 @@
 
 
 
-##  产品介绍
+##  Products Introduction
 
-1. **开源 & 便于二次开发**
-   本系列舵机由[华馨京科技](https://fashionrobo.com/)提供，是一套开源、便于二次开发的6+1自由度机器臂解决方案。
-2. **支持 LeRobot 平台集成**
-   专为与 [LeRobot 平台](https://github.com/huggingface/lerobot) 集成而设计。该平台提供 PyTorch 模型、数据集与工具，面向现实机器人任务的模仿学习（包括数据采集、仿真、训练与部署）。
-3. **丰富的学习资源**
-   提供全面的开源学习资源，包括环境搭建，安装与调试与自定义夹取任务案例帮助用户快速上手并开发机器人应用。
-4. **兼容 Nvidia 平台**
-   支持通过 reComputer Mini J4012 Orin NX 16GB 平台进行部署。
+1. **Open-Source & Developer-Friendly**
+   It is an open-source, developer-friendly 6+1 DoF robotic arm solution from [Fishion Star Technology Limited](https://fashionrobo.com/).
+2. **Integration with LeRobot**
+   Designed for integration with [LeRobot Platform](https://github.com/huggingface/lerobot) , which provides PyTorch models, datasets, and tools for imitation learning in real-world robotic tasks — including data collection, simulation, training, and deployment.
+3. **Comprehensive Learning Resources**
+   Provides comprehensive open-source learning resources like assembly and calibration guides, and example custom grasping tasks to assist users in quickly getting started and developing robotic applications.
+4. **Compatible with Nvidia**
+   Supports deployment on the reComputer Mini J4012 Orin NX 16GB platform.
 
-## 特点内容
+## Main Features
 
 - Ready to Go — No Assembly Required. Just Unbox and Dive into the World of AI.
 - 6+1 Degrees of Freedom and a 470mm Reach — Built for Versatility and Precision.
@@ -25,7 +25,7 @@
 
 
 
-## 规格参数
+## Specifications
 
 ![image-20250709072845215](media/starai/image-20250709072845215.png)
 
@@ -35,7 +35,7 @@
 | Reach                | 470mm                                             | 470mm                                             |
 | Span                 | 940mm                                             | 940mm                                             |
 | Repeatability        | 2mm                                               | -                                                 |
-| Working Payload      | 300g (with 70% Reach）                            | -                                                 |
+| Working Payload      | 300g (with 70% Reach)                            | -                                                 |
 | Servos               | RX8-U50H-M x2<br/>RA8-U25H-M x4<br/>RA8-U26H-M x1 | RX8-U50H-M x2<br/>RA8-U25H-M x4<br/>RA8-U26H-M x1 |
 | Parallel Gripper Ki  | √                                                 | -                                                 |
 | Wrist Rotate         | Yes                                               | Yes                                               |
@@ -48,7 +48,7 @@
 | Communication Hub    | UC-01                                             | UC-01                                             |
 | Power Supply         | 12v/120w                                          | 12v/120w                                          |
 
-有关舵机更多资讯，请访问以下链接。
+For more information about the servo, please refer to the link below.
 
 [RA8-U25H-M](https://fashionrobo.com/actuator-u25/23396/)
 
@@ -62,7 +62,7 @@
 
 
 
-## Initial environment setup
+## Initial Environment Setup
 
 For Ubuntu X86:
 
@@ -156,7 +156,7 @@ If the result is False, you need to reinstall Pytorch and Torchvision according 
 
 
 
-### Configure Arm Port
+### Configure arm port
 
 Run the following command in the terminal to find USB ports associated to your arms：
 
@@ -227,7 +227,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
     )
 ```
 
-### Set Runtime Parameters
+### Set runtime parameters
 
 Open-file
 
@@ -335,6 +335,12 @@ Normally, the robotic arm is pre-calibrated in factory and does not require reca
 
 ## Teleoperate
 
+Move the arm to the position shown in the diagram and set it to standby.
+
+![image-20250717064511074](media/image-20250717064511074.png)
+
+
+
 Then you are ready to teleoperate your robot (It won't display the cameras)! Run this simple script :
 
 ```bash
@@ -344,7 +350,7 @@ python lerobot/scripts/control_robot.py \
   --control.type=teleoperate
 ```
 
-After the program starts, the Hold button remains functional.
+After the program starts, the Hover Lock Technology remains functional.
 
 
 
@@ -382,7 +388,7 @@ Images have been saved to outputs/images_from_opencv_cameras
 
 You can find the pictures taken by each camera in the `outputs/images_from_opencv_cameras` directory, and confirm the port index information corresponding to the cameras at different positions. Then complete the alignment of the camera parameters in the `lerobot/lerobot/common/robot_devices/robots/configs.py` file.
 
-![image-20250625094612644](./media/starai/image-20250625094612644.png) 
+<img src="./media/starai/image-20250625094612644.png" alt="image-20250625094612644" style="zoom:50%;" /> 
 
 ```
 @RobotConfig.register_subclass("starai")
@@ -513,7 +519,7 @@ To train a policy to control your robot, use the `python lerobot/scripts/train.p
 
 ```bash
 python lerobot/scripts/train.py \
-  --dataset.repo_id=starai/starai \
+  --dataset.repo_id=${HF_USER}/starai \
   --policy.type=act \
   --output_dir=outputs/train/act_starai \
   --job_name=act_starai \
@@ -558,7 +564,7 @@ As you can see, this is almost identical to the command previously used to recor
 
 ## FAQ
 
-- If you are following this documentation/tutorial, please git clone the recommended GitHub repository `TODO`.
+- If you are following this documentation/tutorial, please git clone the recommended GitHub repository `https://github.com/servodevelop/lerobot-starai.git`.
 
 - If you encounter the following error, you need to check whether the robotic arm connected to the corresponding port is powered on and whether the bus servos have any loose or disconnected cables.
 
@@ -566,19 +572,13 @@ As you can see, this is almost identical to the command previously used to recor
   ConnectionError: Read failed due to comunication eror on port /dev/ttyACM0 for group key Present_Position_Shoulder_pan_Shoulder_lift_elbow_flex_wrist_flex_wrist_roll_griper: [TxRxResult] There is no status packet!
   ```
 
-  
-
-- If you have repaired or replaced any parts of the robotic arm, please completely delete the `~/lerobot/.cache/huggingface/calibration/so100` folder and recalibrate the robotic arm.
-
-- If the remote control functions normally but the remote control with Camera fails to display the image interface, you can find [here](https://github.com/huggingface/lerobot/pull/757/files)
+- If the remote control functions normally but the remote control with Camera fails to display the image interface, you can refer to [here](https://github.com/huggingface/lerobot/pull/757/files)
 
 - If you encounter libtiff issues during dataset remote operation, please update the libtiff version.
 
   ```bash
   conda install libtiff==4.5.0  #for Ubuntu 22.04 is libtiff==4.5.1
   ```
-
-  
 
 - After executing the [Lerobot Installation](https://wiki.seeedstudio.com/cn/lerobot_so100m/#安装lerobot), the GPU version of pytorch may be automatically uninstalled, so you need to manually install torch-gpu.
 
@@ -587,32 +587,10 @@ As you can see, this is almost identical to the command previously used to recor
 - If the following problem occurs, it means that your computer does not support this video codec format. You need to modify line 134 in the file `lerobot/lerobot/common/datasets /video_utils.py` by changing the value of `vcodec: str = "libsvtav1"` to `libx264` or `libopenh264`. Different computers may require different parameters, so you can try various options. [Issues 705](https://github.com/huggingface/lerobot/issues/705)
 
   ```bash
-  
-  ```
-
-- 
-
-  ```bash
   [vost#0:0 @ 0x13207240] Unknown encoder 'libsvtav1' [vost#0:0 @ 0x13207240] Error selecting an encoder Error opening output file /home/han/.cache/huggingface/lerobot/lyhhan/so100_test/videos/chunk-000/observation.images.laptop/episode_000000.mp4. Error opening output files: Encoder not found
   ```
 
   
-
-- Important!!! If during execution the servo's cable becomes loose, please restore the servo to its initial position and then reconnect the servo cable. You can also individually calibrate a servo using the [Servo Initialization Command](https://wiki.seeedstudio.com/cn/lerobot_so100m/#校准舵机并组装机械臂), ensuring that only one cable is connected between the servo and the driver board during individual calibration. If you encounter
-
-  ```bash
-  
-  ```
-
-- 
-
-  ```bash
-  Auto-correct calibration of motor 'wrist roll' by shifting value by 1 full turns, from '-270 < -312.451171875 < 270degrees' to'-270<-312.451171875 < 270 degrees'.
-  ```
-
-  
-
-  or other errors during the robotic arm calibration process related to angles and exceeding limit values, this method is still applicable.
 
 - Training 50 sets of ACT data on an 8G 3060 laptop takes approximately 6 hours, while on a 4090 or A100 computer, training 50 sets of data takes about 2–3 hours.
 
@@ -622,7 +600,7 @@ As you can see, this is almost identical to the command previously used to recor
 
 - If the program prompts that it cannot read the USB camera image data, please ensure that the USB camera is not connected to a hub. The USB camera must be directly connected to the device to ensure a fast image transmission rate.
 
-## 参考文档TODO
+## 参考文档
 
 矽递科技英文Wiki文档：[How to use the SO10xArm robotic arm in Lerobot | Seeed Studio Wiki]([如何在 Lerobot 中使用 SO100/101Arm 机器人手臂 | Seeed Studio Wiki](https://wiki.seeedstudio.com/cn/lerobot_so100m/))
 
