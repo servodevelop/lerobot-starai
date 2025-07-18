@@ -37,7 +37,7 @@
 | Reach                | 470mm                                             | 470mm                                             |
 | Span                 | 940mm                                             | 940mm                                             |
 | Repeatability        | 2mm                                               | -                                                 |
-| Working Payload      | 300g (with 70% Reach）                            | -                                                 |
+| Working Payload      | 300g ( with 70% Reach)                            | -                                                 |
 | Servos               | RX8-U50H-M x2<br/>RA8-U25H-M x4<br/>RA8-U26H-M x1 | RX8-U50H-M x2<br/>RA8-U25H-M x4<br/>RA8-U26H-M x1 |
 | Parallel Gripper Ki  | √                                                 | -                                                 |
 | Wrist Rotate         | Yes                                               | Yes                                               |
@@ -310,7 +310,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
 > lsusb
 > ```
 >
-> ![image-20241230112928879-1749511998299-1](./media/starai/image-20241230112928879-1749511998299-1.png)
+> <img src="./media/starai/image-20241230112928879-1749511998299-1.png" alt="image-20241230112928879-1749511998299-1" style="zoom:80%;" />
 >
 > 识别成功，查看ttyusb的信息
 >
@@ -318,7 +318,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
 > sudo dmesg | grep ttyUSB
 > ```
 >
-> ![image-20241230113058856](./media/starai/image-20241230113058856-1749512093309-2.png)
+> <img src="./media/starai/image-20241230113058856-1749512093309-2.png" alt="image-20241230113058856" style="zoom:80%;" />
 >
 > 最后一行显示断连，因为brltty在占用该USB设备号，移除掉就可以了
 >
@@ -326,7 +326,7 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
 > sudo apt remove brltty
 > ```
 >
-> ![image-20241230113211143](./media/starai/image-20241230113211143-1749512102599-4.png)
+> <img src="./media/starai/image-20241230113211143-1749512102599-4.png" alt="image-20241230113211143" style="zoom: 80%;" />
 >
 > 最后，赋予权限
 >
@@ -339,6 +339,12 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
 
 
 ## 遥操作
+
+将手臂移动至图上位置待机。
+
+![image-20250717064511074](media/image-20250717064511074.png)
+
+
 
 您已准备好遥操作您的机器人（不包括摄像头）！运行以下简单脚本：
 
@@ -385,7 +391,7 @@ Images have been saved to outputs/images_from_opencv_cameras
 
 您可以在 `outputs/images_from_opencv_cameras` 目录中找到每个摄像头拍摄的图片，并确认不同位置摄像头对应的端口索引信息。然后，完成 `lerobot/lerobot/common/robot_devices/robots/configs.py` 文件中摄像头参数的对齐。
 
-![image-20250625094612644](./media/starai/image-20250625094612644.png) 
+<img src="./media/starai/image-20250625094612644.png" alt="image-20250625094612644" style="zoom:50%;" /> 
 
 ```
 @RobotConfig.register_subclass("starai")
