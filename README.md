@@ -338,6 +338,10 @@ class StaraiRobotConfig(ManipulatorRobotConfig):
 
 ## 遥操作
 
+
+https://github.com/user-attachments/assets/23b3aa00-9889-48d3-ae2c-00ad50595e0a
+
+
 将手臂移动至图上位置待机。
 
 ![image-20250717064511074](media/image-20250717064511074.png)
