@@ -141,17 +141,34 @@ print(torch.cuda.is_available())
 
 If the result is False, you need to reinstall Pytorch and Torchvision according to the [official website tutorial](https://fashionrobo.com/).
 
-### 机械臂开箱TODO
+### Robotic Arm Unboxing
 
-机械臂套装内包含
+The robotic arm kit includes:
 
-- leader arm
+- Leader arm
 
-- follower arm
+- Follower arm
 
-- 电源x2
+- Controller (handle)
 
-  
+- Parallel gripper
+
+- Installation tools (screws, hex wrench)
+
+- Power supply ×2
+
+- C-clamp ×2
+
+- UC01 debuging board ×2
+
+
+
+
+
+
+https://github.com/user-attachments/assets/56130bd9-21ee-4ae4-9cac-3817ac4d659f
+
+
 
 
 
@@ -602,9 +619,9 @@ As you can see, this is almost identical to the command previously used to recor
 
 - If the program prompts that it cannot read the USB camera image data, please ensure that the USB camera is not connected to a hub. The USB camera must be directly connected to the device to ensure a fast image transmission rate.
 
-## 参考文档
+## Reference Documentation
 
-矽递科技英文Wiki文档：[How to use the SO10xArm robotic arm in Lerobot | Seeed Studio Wiki]([如何在 Lerobot 中使用 SO100/101Arm 机器人手臂 | Seeed Studio Wiki](https://wiki.seeedstudio.com/cn/lerobot_so100m/))
+seeed Wiki：[How to use the SO10xArm robotic arm in Lerobot | Seeed Studio Wiki]([How to use the SO-ARM100 and SO-ARM101 robotic arm in Lerobot](https://wiki.seeedstudio.com/lerobot_so100m/))
 
 Huggingface Project:[Lerobot](https://github.com/huggingface/lerobot/tree/main)
 

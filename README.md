@@ -146,11 +146,11 @@ print(torch.cuda.is_available())
 
 ### 机械臂开箱
 
-机械臂套装内包含
+机械臂套装内包含：
 
-- leader arm 主体
+- Leader arm 主体
 
-- follower arm 主体
+- Follower arm 主体
 
 - 手柄
 
