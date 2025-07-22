@@ -335,6 +335,8 @@ Normally, the robotic arm is pre-calibrated in factory and does not require reca
 
 ## Teleoperate
 
+https://github.com/user-attachments/assets/23b3aa00-9889-48d3-ae2c-00ad50595e0a
+
 Move the arm to the position shown in the diagram and set it to standby.
 
 ![image-20250717064511074](media/image-20250717064511074.png)
