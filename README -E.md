@@ -146,22 +146,19 @@ If the result is False, you need to reinstall Pytorch and Torchvision according 
 The robotic arm kit includes:
 
 - Leader arm
-
 - Follower arm
-
 - Controller (handle)
-
 - Parallel gripper
-
 - Installation tools (screws, hex wrench)
-
 - Power supply ×2
-
 - C-clamp ×2
+- UC-01 debuging board ×2
 
-- UC01 debuging board ×2
 
 
+UC-01 debuging board switch：
+
+<img src="media/image-20250722141339815.png" alt="image-20250722141339815" style="zoom:25%;" />
 
 
 
