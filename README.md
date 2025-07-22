@@ -157,6 +157,10 @@ print(torch.cuda.is_available())
   
 
 
+https://github.com/user-attachments/assets/56130bd9-21ee-4ae4-9cac-3817ac4d659f
+
+
+
 
 
 ### 手臂端口设置
