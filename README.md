@@ -144,15 +144,27 @@ print(torch.cuda.is_available())
 
 如果输出结果为 False，需要根据[官网教程](https://pytorch.org/index.html)重新安装 Pytorch 和 Torchvision。
 
-### 机械臂开箱TODO
+### 机械臂开箱
 
 机械臂套装内包含
 
-- leader arm
+- leader arm 主体
 
-- follower arm
+- follower arm 主体
 
-- 电源x2
+- 手柄
+
+- 平行夹爪
+
+- 安装工具（螺丝、内六角扳手）
+
+- 电源 x2
+
+- C型夹具 x2
+
+- UC01 转接板 x2
+  
+
 
   
 
