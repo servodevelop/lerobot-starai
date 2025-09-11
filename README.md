@@ -1,10 +1,10 @@
 # 如何搭建具身智能LeRobot-starai系列机械臂并完成自定义抓取任务
 
->[warn]
+>[!warning]
 >
 >本仓库已经转为维护。
 >
->最新版lerobot仓库地址https://github.com/servodevelop/lerobot。
+>最新版lerobot仓库地址https://github.com/servodevelop/lerobot
 >
 >
 
